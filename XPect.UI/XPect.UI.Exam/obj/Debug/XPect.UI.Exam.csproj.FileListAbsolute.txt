@@ -1,0 +1,36 @@
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.Lib.CommonLib.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.csprojResolveAssemblyReference.cache
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.Lib.CommonLib.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.Lib.DataModel.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\EntityFramework.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\XPect.Lib.DataModel.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.Exam\bin\Debug\EntityFramework.xml
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.csprojResolveAssemblyReference.cache
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.CommonLib.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.DataModel.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\EntityFramework.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.CommonLib.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.DataModel.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.Exam\bin\Debug\EntityFramework.xml
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.UI.Exam.pdb
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.CommonLib.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.WinFormsUI.Docking.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.XPControl.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\XPect.Lib.DataModel.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\EntityFramework.dll
+E:\Code\XPect.UI\XPect.UI.Exam\bin\Debug\EntityFramework.xml
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.ExamAPRSetting.resources
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.ExamPreview.resources
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.csproj.GenerateResource.Cache
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.dll
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.pdb
+E:\Code\XPect.UI\XPect.UI.Exam\obj\Debug\XPect.UI.Exam.csprojResolveAssemblyReference.cache

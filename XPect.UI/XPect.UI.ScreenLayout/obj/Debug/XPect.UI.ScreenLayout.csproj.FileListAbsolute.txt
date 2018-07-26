@@ -1,0 +1,31 @@
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.CommonLib.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.CommonLib.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.csprojResolveAssemblyReference.cache
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.DataModel.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.DataModel.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.xml
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.csprojResolveAssemblyReference.cache
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.CommonLib.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.DataModel.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.dll
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.CommonLib.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.DataModel.pdb
+F:\02 ProjectManagement\66 ProjectSrc\YellowRiver\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.xml
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.dll
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.UI.ScreenLayout.pdb
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.CommonLib.dll
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\XPect.Lib.DataModel.dll
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.dll
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\bin\Debug\EntityFramework.xml
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.dll
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.pdb
+E:\Code\XPect.UI\XPect.UI.ScreenLayout\obj\Debug\XPect.UI.ScreenLayout.csprojResolveAssemblyReference.cache
