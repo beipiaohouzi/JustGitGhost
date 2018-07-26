@@ -292,6 +292,101 @@ namespace AppsettingHelp
             }
         }
         #endregion
+        #region common appsetting
+        static string eleHeight;
+        public static int TipEleHeight
+        {//元素高度
+            get
+            {
+                if (string.IsNullOrEmpty(eleHeight))
+                {
+                    eleHeight = ReadAppSettingItem("TipEleHeight");
+                }
+                int height = 0;
+                int.TryParse(eleHeight, out height);
+                if (height < 1)
+                {
+                    height = 12;
+                }
+                return height;
+            }
+        }
+        #endregion
     }
 
+}
+namespace CommonHelper
+{
+    using System.IO;
+    public class Logger
+    {
+        /// <summary>
+        /// 将数据写入到日志
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="path"></param>
+        /// <param name="log"></param>
+        /// <param name="fileName"></param>
+        /// <param name="existsWrite">存在相同名称的文件进行替换还是追加</param>
+        public static void CreateLogFile(string text, string path, string log, string fileName = null, bool existsWrite = false, Encoding encode = null)
+        {
+            if (string.IsNullOrEmpty(text)) { return; }
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            DateTime now = DateTime.Now;
+            string file = path + "/" + log;
+            if (!Directory.Exists(file))
+                Directory.CreateDirectory(file);
+            string filetype = ".txt";
+            if (string.IsNullOrEmpty(fileName))
+                file += "/" + log + now.ToString("yyyyMMdd") + filetype;
+            else
+            {//需要判断是否增加后缀
+                if (!fileName.Contains("."))
+                {
+                    file += "/" + fileName + filetype;
+                }
+                else
+                {
+                    file += "/" + fileName;
+                }
+            }
+            FileStream fs;
+            if (!existsWrite)
+            {
+                fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Write);
+            }
+            else
+            {
+                if (File.Exists(file))
+                {
+                    text = "\r\n" + text;
+                    fs = new FileStream(file, FileMode.Append, FileAccess.Write, FileShare.Write);
+                }
+                else
+                {
+                    fs = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Write);
+                }
+            }
+            if (encode == null)
+            {
+                encode = Encoding.UTF8;
+            }
+            StreamWriter sw = new StreamWriter(fs, encode);
+            sw.Write(text);
+            sw.Close();
+            fs.Close();
+        }
+    }
+    public static class LoggerQuickHelp
+    {
+        public static void WriteLog(this string log,string title)
+        {
+            DateTime now = DateTime.Now;
+            //日志按照月份汇总
+            string file = now.ToString("");//日志以天为文件存储
+        }
+    }
 }

@@ -17,20 +17,36 @@ namespace XPect.UI.Exam
         class XPPictureBox : PictureBox
         {
             public bool IsClick { get; set; }
-            XPLabel lbl = null;
-            public XPPictureBox(string desc)
+            XPTextBox lbl = null;
+            int tipHeight = SystemConfig.TipEleHeight;
+            public XPPictureBox(string desc=null)
             {
-                //增加label
-                lbl = new XPLabel() { Text = desc,Name="lblImgType" };
-                setLblPosotion();
+                if (!string.IsNullOrEmpty(desc))
+                {
+                    //增加label
+                    lbl = new XPTextBox() {Height=tipHeight, Text = desc, Name = "lblImgType",ForeColor=Color.Black};
+                    setLblPosotion();
+                    SizeChanged += new EventHandler(ContainSizeChange);
+                }
             }
             void setLblPosotion()
             {
                 Point pic = this.Location;
-                Point lp = new Point(pic.X + this.Width / 2, pic.Y + this.Height - 10);
+                Point lp = new Point(pic.X , pic.Y + this.Height - tipHeight);
                 lbl.Location = lp;
+                lbl.Width = this.Width;
+                this.Controls.Add(lbl);
+            }
+            //窗体大小变动需要 调整描述显示的位置
+            void ContainSizeChange(object sender, EventArgs e)
+            {
+                Point pic = this.Location;
+                Point lp = new Point(pic.X, pic.Y + this.Height - tipHeight);
+                lbl.Location = lp;
+                lbl.Width = this.Width;
             }
         }
+        string activePicture = string.Empty;//被激活的图片控件
         int changeNum = 0;
         double left = 0.3, right = 0.7;//布局
         bool firstInit = true;
@@ -116,15 +132,16 @@ namespace XPect.UI.Exam
             {//第几行
                 for (int c = 0; c < column; c++)
                 {//列数目
-                    XPPictureBox xp = new XPPictureBox(DateTime.Now.ToString("yyyyMM"))
+                 //判断该图片是否为增加按钮
+                    bool isLast = (column * r + c) == (row * column - 1);
+                    XPPictureBox xp = new XPPictureBox(isLast?string.Empty:DateTime.Now.ToString("yyyyMM"))
                     {
                         Name = string.Format(imageIdFormat, (c + column * r + 1)),
                         Width = imageWidth,
                         Height = imageHeight,
                         Location = new Point(c * imageWidth + imageWightSpan * c, imageHeight * r + imageHeightSpan * r)
                     };
-                    //判断该图片是否为增加按钮
-                    bool isLast = (column * r + c)==(row*column-1);
+                   
                     if (!isLast)
                     {
                         xp.BackgroundImage = new Bitmap(SystemConfig.DefaultImage);
@@ -297,6 +314,16 @@ namespace XPect.UI.Exam
         void CommonPcitureBoxClick(object sender,EventArgs e)
         {
             PictureSelect(sender, e);//边框渲染
+            XPPictureBox pic = sender as XPPictureBox;
+            //判断是否进行的是取消
+            if (!pic.IsClick)
+            {
+                activePicture = pic.Name;
+            }
+            else
+            {
+
+            }
         }
         void AddPictureBoxClick(object sender,EventArgs e)
         {
