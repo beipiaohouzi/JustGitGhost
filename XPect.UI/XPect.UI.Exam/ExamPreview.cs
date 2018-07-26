@@ -14,17 +14,97 @@ namespace XPect.UI.Exam
 {
     public partial class ExamPreview : DockContent
     {
-        class XPPictureBox : PictureBox
+        public class XPImagePanel:XPPanel
+        {
+            public bool IsClick { get; set; }
+            XPPictureBox Study { get;  set; }
+            XPTextBox descEle { get; set; }
+            int descEleHeight;
+            int penWight = 4;
+            public XPImagePanel(int tipHeight)
+            {
+                SetLayout(tipHeight);
+                this.SizeChanged += new EventHandler(SizeChange_Event);
+                Study.Click += new EventHandler(StudyClick);
+                Click += new EventHandler(PanelClick_event);
+            }
+            #region auto event
+            void SetLayout(int descHeight)
+            {
+                descEleHeight = descHeight;
+                Point local = this.Location;
+                int w = this.Width;
+                int h = this.Height;
+                Study = new XPPictureBox();
+                descEle = new XPTextBox()
+                {
+                    ReadOnly = true,
+                    TextAlign=HorizontalAlignment.Center
+                };
+                if (descHeight < 1)
+                {
+                    descEle.Hide();
+                }
+                AutoResize();
+                this.Controls.Add(Study);
+                this.Controls.Add(descEle);
+            }
+            void AutoResize()
+            {
+                Point local = this.Location;
+                int w = this.Width;
+                int h = this.Height;
+                Study.Width = w - penWight;
+                Study.Height = h - descEleHeight - penWight;
+                Study.Location = new Point(local.X + penWight/2, local.Y + penWight/2);
+                descEle.Location = new Point(local.X+ penWight/2, local.Y + (h - descEleHeight)- penWight/2);
+                descEle.Width = w- penWight;
+            }
+            void SizeChange_Event(object sender,EventArgs e)
+            {
+                AutoResize();
+            }
+            public void BindPanelClick( EventHandler PanelClick)
+            {
+                this.Click += new EventHandler(PanelClick);
+            }
+            #endregion
+            #region update
+            public void RefreshDesc(string desc)
+            {
+                descEle.Text = desc;
+                descEle.Visible = !string.IsNullOrEmpty(desc);
+            }
+            public void RefreshImage(string imgDir)
+            {
+                Study.BackgroundImage = new Bitmap(imgDir);
+                Study.Refresh();
+            }
+            void StudyClick(object sender,EventArgs e)
+            {
+                this.OnClick(e);
+            }
+            void PanelClick_event(object sender,EventArgs e)
+            {
+
+            }
+            #endregion
+        }
+        public class XPPictureBox : PictureBox
         {
             public bool IsClick { get; set; }
             XPTextBox lbl = null;
             int tipHeight = SystemConfig.TipEleHeight;
             public XPPictureBox(string desc=null)
             {
+                AppendTipEle(desc);
+            }
+            public void AppendTipEle(string desc)
+            {
                 if (!string.IsNullOrEmpty(desc))
                 {
                     //增加label
-                    lbl = new XPTextBox() {Height=tipHeight, Text = desc, Name = "lblImgType",ForeColor=Color.Black};
+                    lbl = new XPTextBox() { Height = tipHeight, Text = desc, Name = "lblImgType", ForeColor = Color.Black };
                     setLblPosotion();
                     SizeChanged += new EventHandler(ContainSizeChange);
                 }
@@ -49,12 +129,12 @@ namespace XPect.UI.Exam
         string activePicture = string.Empty;//被激活的图片控件
         int changeNum = 0;
         double left = 0.3, right = 0.7;//布局
-        bool firstInit = true;
         XPTableLayoutPanel layout = new XPTableLayoutPanel() { Name = "layoutPanel", Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };//单行两列
         int[] imageTables = SystemConfig.ImageArrayFormat;
         int imageHeightSpan = SystemConfig.ImageMarginBottom, imageWightSpan = SystemConfig.ImageMarginRight;//图片的高度/宽度间隔
         int imageWidth = SystemConfig.ImageWidth, imageHeight = SystemConfig.ImageHeight;//图片的比例
         string imageIdFormat = "image{0}";
+        int tipEleHeight = SystemConfig.TipEleHeight;
         public ExamPreview()
         {
             InitializeComponent();
@@ -70,7 +150,6 @@ namespace XPect.UI.Exam
             changeNum++;
             if (changeNum > 1)
             {
-                firstInit = false;
                 PageSizeChange();
             }
             else
@@ -134,22 +213,24 @@ namespace XPect.UI.Exam
                 {//列数目
                  //判断该图片是否为增加按钮
                     bool isLast = (column * r + c) == (row * column - 1);
-                    XPPictureBox xp = new XPPictureBox(isLast?string.Empty:DateTime.Now.ToString("yyyyMM"))
+                    XPImagePanel xp = new XPImagePanel(tipEleHeight)
                     {
-                        Name = string.Format(imageIdFormat, (c + column * r + 1)),
                         Width = imageWidth,
                         Height = imageHeight,
+                        Name= string.Format(imageIdFormat, (c + column * r + 1)),
                         Location = new Point(c * imageWidth + imageWightSpan * c, imageHeight * r + imageHeightSpan * r)
+                         
                     };
-                   
                     if (!isLast)
                     {
-                        xp.BackgroundImage = new Bitmap(SystemConfig.DefaultImage);
-                        xp.Click += new EventHandler(CommonPcitureBoxClick);//图片 被选中
+                        xp.RefreshImage(SystemConfig.DefaultImage);
+                        xp.RefreshDesc(DateTime.Now.ToString("yyyyMMdd"));
+                        xp.Click+=new EventHandler (CommonPcitureBoxClick);//图片 被选中
+                        //选中图片同样触发
                     }
                     else
                     {
-                        xp.BackgroundImage = new Bitmap(SystemConfig.AddActionIcon);
+                        xp.RefreshImage(SystemConfig.AddActionIcon);
                         xp.Click += new EventHandler(AddPictureBoxClick);//图片 被选中
                     }
                     contain.Controls.Add(xp);
@@ -242,17 +323,17 @@ namespace XPect.UI.Exam
                     {//实际上增加的元素数目少于自动调整窗体大小之后可以排放的数目
                         continue;
                     }
-                    XPPictureBox pic = ele[0] as XPPictureBox;
+                    XPImagePanel pic = ele[0] as XPImagePanel;
                     pic.Location = new Point(c * imageWidth + imageWightSpan * c, imageHeight * r + imageHeightSpan * r);
                     pic.Width = imageWidth;
                     pic.Height = imageHeight;
                     if (index == count)
                     {
-                        pic.BackgroundImageLayout = ImageLayout.Zoom;
+                       // pic.BackgroundImageLayout = ImageLayout.Zoom;
                     }
                     else if ( pic.BackgroundImage != null && pic.Width < pic.BackgroundImage.Width)
                     {//最后一张图片不需要进行自适应
-                        pic.BackgroundImageLayout = ImageLayout.Stretch;
+                      //  pic.BackgroundImageLayout = ImageLayout.Stretch;
                     }
                 }
                 if (isEnd)
@@ -280,14 +361,14 @@ namespace XPect.UI.Exam
         void PictureSelect(object sender, EventArgs e)
         {
             #region 做标记 -选中与否
-            XPPictureBox pb = sender as XPPictureBox;
+            XPImagePanel pb = sender as XPImagePanel;
             //上一次选中的元素是否为当前元素
             bool lastSelect = pb.IsClick;
             Graphics pictureborder = pb.CreateGraphics();
             Pen noSelect=new Pen(Color.White,4);//设置取消选中的背景色
             foreach (Control c in pb.Parent.Controls)
             {
-                XPPictureBox p1 = c as XPPictureBox;
+                XPImagePanel p1 = c as XPImagePanel;
                 if (pb != p1)
                 {
                     Graphics pictureborder1 = p1.CreateGraphics();
@@ -314,7 +395,7 @@ namespace XPect.UI.Exam
         void CommonPcitureBoxClick(object sender,EventArgs e)
         {
             PictureSelect(sender, e);//边框渲染
-            XPPictureBox pic = sender as XPPictureBox;
+            XPImagePanel pic = sender as XPImagePanel;
             //判断是否进行的是取消
             if (!pic.IsClick)
             {
@@ -335,7 +416,7 @@ namespace XPect.UI.Exam
             string image = SystemConfig.DefaultImage;//这是执行新增获取到的图片路径【在实际应用中这个路径需要改动】
             if (SystemConfig.ImageSizeIsDynamic)
             {//如果动态
-                XPPictureBox add = sender as XPPictureBox;
+                XPImagePanel add = sender as XPImagePanel;
                 Control parent = add.Parent;
                 int pw = parent.Width;
                 int[] matrix = new SystemConfig().ImageArray(pw);//排列数目
@@ -344,13 +425,14 @@ namespace XPect.UI.Exam
                 //判断是否能在最后一行添加图片：1 添加，并将新增图标后移，2 替换最后元素的位置
                 Point temp = add.Location;
                 int newW = temp.X + 2 * imageWidth + margin;
-                XPPictureBox newp = new XPPictureBox(DateTime.Now.ToString("yyyyMM"))
+                XPImagePanel newp = new XPImagePanel(tipEleHeight)
                 {
                     Location = new Point(temp.X, temp.Y),
                     Width = add.Width,
-                    Height = add.Height,
-                    BackgroundImage = new Bitmap(image)
+                    Height = add.Height
                 };
+                newp.RefreshDesc(DateTime.Now.ToString("yyyyMM"));
+                newp.RefreshImage(image);
                 newp.Click += new EventHandler(CommonPcitureBoxClick);
                 parent.Controls.Add(newp);
                 if (newW <= pw)
