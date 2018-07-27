@@ -10,122 +10,12 @@ using System.Windows.Forms;
 using XPect.Lib.WinFormsUI.Docking;
 using XPect.Lib.XPControl;
 using AppsettingHelp;
+using CommonHelper;
 namespace XPect.UI.Exam
 {
     public partial class ExamPreview : DockContent
     {
-        public class XPImagePanel:XPPanel
-        {
-            public bool IsClick { get; set; }
-            XPPictureBox Study { get;  set; }
-            XPTextBox descEle { get; set; }
-            int descEleHeight;
-            int penWight = 4;
-            public XPImagePanel(int tipHeight)
-            {
-                SetLayout(tipHeight);
-                this.SizeChanged += new EventHandler(SizeChange_Event);
-                Study.Click += new EventHandler(StudyClick);
-                Click += new EventHandler(PanelClick_event);
-            }
-            #region auto event
-            void SetLayout(int descHeight)
-            {
-                descEleHeight = descHeight;
-                Point local = this.Location;
-                int w = this.Width;
-                int h = this.Height;
-                Study = new XPPictureBox();
-                descEle = new XPTextBox()
-                {
-                    ReadOnly = true,
-                    TextAlign=HorizontalAlignment.Center
-                };
-                if (descHeight < 1)
-                {
-                    descEle.Hide();
-                }
-                AutoResize();
-                this.Controls.Add(Study);
-                this.Controls.Add(descEle);
-            }
-            void AutoResize()
-            {
-                Point local = this.Location;
-                int w = this.Width;
-                int h = this.Height;
-                Study.Width = w - penWight;
-                Study.Height = h - descEleHeight - penWight;
-                Study.Location = new Point(local.X + penWight/2, local.Y + penWight/2);
-                descEle.Location = new Point(local.X+ penWight/2, local.Y + (h - descEleHeight)- penWight/2);
-                descEle.Width = w- penWight;
-            }
-            void SizeChange_Event(object sender,EventArgs e)
-            {
-                AutoResize();
-            }
-            public void BindPanelClick( EventHandler PanelClick)
-            {
-                this.Click += new EventHandler(PanelClick);
-            }
-            #endregion
-            #region update
-            public void RefreshDesc(string desc)
-            {
-                descEle.Text = desc;
-                descEle.Visible = !string.IsNullOrEmpty(desc);
-            }
-            public void RefreshImage(string imgDir)
-            {
-                Study.BackgroundImage = new Bitmap(imgDir);
-                Study.Refresh();
-            }
-            void StudyClick(object sender,EventArgs e)
-            {
-                this.OnClick(e);
-            }
-            void PanelClick_event(object sender,EventArgs e)
-            {
-
-            }
-            #endregion
-        }
-        public class XPPictureBox : PictureBox
-        {
-            public bool IsClick { get; set; }
-            XPTextBox lbl = null;
-            int tipHeight = SystemConfig.TipEleHeight;
-            public XPPictureBox(string desc=null)
-            {
-                AppendTipEle(desc);
-            }
-            public void AppendTipEle(string desc)
-            {
-                if (!string.IsNullOrEmpty(desc))
-                {
-                    //增加label
-                    lbl = new XPTextBox() { Height = tipHeight, Text = desc, Name = "lblImgType", ForeColor = Color.Black };
-                    setLblPosotion();
-                    SizeChanged += new EventHandler(ContainSizeChange);
-                }
-            }
-            void setLblPosotion()
-            {
-                Point pic = this.Location;
-                Point lp = new Point(pic.X , pic.Y + this.Height - tipHeight);
-                lbl.Location = lp;
-                lbl.Width = this.Width;
-                this.Controls.Add(lbl);
-            }
-            //窗体大小变动需要 调整描述显示的位置
-            void ContainSizeChange(object sender, EventArgs e)
-            {
-                Point pic = this.Location;
-                Point lp = new Point(pic.X, pic.Y + this.Height - tipHeight);
-                lbl.Location = lp;
-                lbl.Width = this.Width;
-            }
-        }
+        
         string activePicture = string.Empty;//被激活的图片控件
         int changeNum = 0;
         double left = 0.3, right = 0.7;//布局
@@ -217,7 +107,7 @@ namespace XPect.UI.Exam
                     {
                         Width = imageWidth,
                         Height = imageHeight,
-                        Name= string.Format(imageIdFormat, (c + column * r + 1)),
+                        Name= string.Format(imageIdFormat,isLast?0: (c + column * r + 1)),
                         Location = new Point(c * imageWidth + imageWightSpan * c, imageHeight * r + imageHeightSpan * r)
                          
                     };
@@ -390,6 +280,8 @@ namespace XPect.UI.Exam
             #endregion
             #region 联动操作
             //特殊动作：选中最后一个图片时进行其他系统的交互，加载第三方的影像
+           
+
             #endregion
         }
         void CommonPcitureBoxClick(object sender,EventArgs e)
@@ -397,26 +289,30 @@ namespace XPect.UI.Exam
             PictureSelect(sender, e);//边框渲染
             XPImagePanel pic = sender as XPImagePanel;
             //判断是否进行的是取消
-            if (!pic.IsClick)
+            if (pic.IsClick)
             {
-                activePicture = pic.Name;
+                activePicture = string.Empty;
+                ("Cancel "+pic.Name).WriteLog("ClickId");
+                return;
             }
-            else
-            {
+            activePicture = pic.Name;
+            //影像窗体中传递参数为摆位图 +参数页面参数列表 传递给硬件api
+            //影像联动曝光参数进行参数显示变动
 
-            }
+            pic.Name.WriteLog("ClickId");
         }
         void AddPictureBoxClick(object sender,EventArgs e)
         {
             PictureSelect(sender, e);//边框渲染
-                                     //执行的动作
-                                     /*
-                                     如果动作逻辑为动态加载影像（数目动态），则逻辑需要进行变动
-                                     */
+            /*
+            如果动作逻辑为动态加载影像（数目动态），则逻辑需要进行变动
+            */
+            XPImagePanel add = sender as XPImagePanel;
+            add.Name.WriteLog("ClickId");
             string image = SystemConfig.DefaultImage;//这是执行新增获取到的图片路径【在实际应用中这个路径需要改动】
             if (SystemConfig.ImageSizeIsDynamic)
             {//如果动态
-                XPImagePanel add = sender as XPImagePanel;
+               
                 Control parent = add.Parent;
                 int pw = parent.Width;
                 int[] matrix = new SystemConfig().ImageArray(pw);//排列数目
@@ -429,10 +325,15 @@ namespace XPect.UI.Exam
                 {
                     Location = new Point(temp.X, temp.Y),
                     Width = add.Width,
-                    Height = add.Height
+                    Height = add.Height,
+                    Name = string.Format(imageIdFormat, parent.Controls.Count+1)
                 };
                 newp.RefreshDesc(DateTime.Now.ToString("yyyyMM"));
                 newp.RefreshImage(image);
+                //进行图片替换测试
+                // SystemConfig.DeadAheadImg
+                string ele = string.Format(imageIdFormat, parent.Controls.Count/2);
+                (parent.Controls.Find(ele, false)[0] as XPImagePanel).RefreshImage(SystemConfig.DeadAheadImg);
                 newp.Click += new EventHandler(CommonPcitureBoxClick);
                 parent.Controls.Add(newp);
                 if (newW <= pw)
@@ -453,4 +354,260 @@ namespace XPect.UI.Exam
         }
         #endregion
     }
+    #region  this ext controls
+    public class XPRichTextBox : RichTextBox
+    { }
+    public class XPImagePanel : XPPanel
+    {
+        public bool IsClick { get; set; }
+        XPPictureBox Study { get; set; }
+        XPTextBox descEle { get; set; }
+        int descEleHeight;
+        int penWight = 4;//画笔像素
+        public XPImagePanel(int tipHeight)
+        {
+            SetLayout(tipHeight);
+            this.SizeChanged += new EventHandler(SizeChange_Event);
+            Study.Click += new EventHandler(StudyClick);
+            Click += new EventHandler(PanelClick_event);
+        }
+        #region auto event
+        void SetLayout(int descHeight)
+        {
+            descEleHeight = descHeight;
+            Point local = this.Location;
+            int w = this.Width;
+            int h = this.Height;
+            Study = new XPPictureBox();
+            descEle = new XPTextBox()
+            {
+                ReadOnly = true,
+                Visible=false,//先预设不显示提示框
+            TextAlign = HorizontalAlignment.Center
+            };
+            if (descHeight < 1)
+            {
+                descEle.Hide();
+            }
+            AutoResize();
+            this.Controls.Add(Study);
+            this.Controls.Add(descEle);
+        }
+        void AutoResize()
+        {
+            Point local = this.Location;
+            int w = this.Width;
+            int h = this.Height;
+            Study.Width = w - penWight;
+            Study.Height = h - descEleHeight - penWight;
+            Study.Location = new Point(local.X + penWight / 2, local.Y + penWight / 2);
+            descEle.Location = new Point(local.X + penWight / 2, local.Y + (h - descEleHeight) - penWight / 2);
+            descEle.Width = w - penWight;
+        }
+        void SizeChange_Event(object sender, EventArgs e)
+        {
+            AutoResize();
+        }
+        public void BindPanelClick(EventHandler PanelClick)
+        {
+            this.Click += new EventHandler(PanelClick);
+        }
+        #endregion
+        #region update
+        public void RefreshDesc(string desc)
+        {
+            descEle.Text = desc;
+            descEle.Visible = !string.IsNullOrEmpty(desc);
+        }
+        public void RefreshImage(string imgDir)
+        {
+            Study.BackgroundImage = new Bitmap(imgDir);
+            Study.Refresh();
+            this.Refresh();
+        }
+        void StudyClick(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+        void PanelClick_event(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+    }
+    public class XPPictureBox : PictureBox
+    {
+        public bool IsClick { get; set; }
+        XPTextBox lbl = null;
+        int tipHeight = SystemConfig.TipEleHeight;
+        public XPPictureBox(string desc = null)
+        {
+            AppendTipEle(desc);
+        }
+        public void AppendTipEle(string desc)
+        {
+            if (!string.IsNullOrEmpty(desc))
+            {
+                //增加label
+                lbl = new XPTextBox() { Height = tipHeight, Text = desc, Name = "lblImgType", ForeColor = Color.Black };
+                setLblPosotion();
+                SizeChanged += new EventHandler(ContainSizeChange);
+            }
+        }
+        void setLblPosotion()
+        {
+            Point pic = this.Location;
+            Point lp = new Point(pic.X, pic.Y + this.Height - tipHeight);
+            lbl.Location = lp;
+            lbl.Width = this.Width;
+            this.Controls.Add(lbl);
+        }
+        //窗体大小变动需要 调整描述显示的位置
+        void ContainSizeChange(object sender, EventArgs e)
+        {
+            Point pic = this.Location;
+            Point lp = new Point(pic.X, pic.Y + this.Height - tipHeight);
+            lbl.Location = lp;
+            lbl.Width = this.Width;
+        }
+    }
+    #endregion
+    #region 这是影像参数页面 -会与影像列表页进行互动
+    public class StudyParamFrm
+    {
+        Control container;
+        public StudyParamFrm(DockContent parent)
+        {
+            container = parent;
+            //container.SizeChanged += new EventHandler(SizeChange_event);
+           // InitLayout();
+        }
+        #region init page
+        void InitLayout()
+        {
+            XPTableLayoutPanel lay = new XPTableLayoutPanel() { ColumnCount = 1, RowCount = 3,Name="table" ,Dock=DockStyle.Fill};
+            XPPanel rulePanel = new XPPanel() { Name = "rulePanel",Dock=DockStyle.Fill };
+            DrawRuleEle(rulePanel);
+            lay.Controls.Add(rulePanel, 0, 0);
+            XPPanel paramPanel = new XPPanel() { Name = "paramPanel", Dock = DockStyle.Fill };
+            DrawParamArea(paramPanel);
+            lay.Controls.Add(paramPanel, 0, 1);
+            XPPanel msgPanel = new XPPanel() { Name = "msgPanel", Dock = DockStyle.Fill };
+            lay.Controls.Add(msgPanel, 0, 2);
+
+            container.Controls.Add(lay);
+            container.Refresh();
+        }
+        #region head
+        void DrawRuleEle(Control parent)
+        {
+            XPPanel rulePanel = new XPPanel() { Name = "rulePanel", Dock = DockStyle.Top };
+            XPRichTextBox rule = new XPRichTextBox()
+            {
+                Text = "\t\tFPD工作状态\r\n\t正常、装备开窗、开窗、读窗",
+                Location = parent.Location,
+                Dock = DockStyle.Top,
+                Enabled = false
+            };
+            rulePanel.Controls.Add(rule);
+            parent.Controls.Add(rulePanel);
+            XPRichTextBox statue = new XPRichTextBox()
+            {
+                Text = "\t\tGen工作状态\r\n\t正常、准备出线、出线、错误",
+                BackColor = Color.FromArgb(204, 255, 255),
+                Location = new Point(parent.Location.X,parent.Location.Y+30),
+                Dock = DockStyle.Fill,
+                Enabled=false
+            };
+            XPButton btn = new XPButton() { Text = "Reset",Name="btnReset",Dock=DockStyle.Right };
+            btn.Click += new EventHandler(BtnReset);
+            XPPanel statuePanel = new XPPanel() { Name = "statuePanel", Dock = DockStyle.Fill };
+            statuePanel.Controls.Add(statue);
+            statuePanel.Controls.Add(btn);
+            parent.Controls.Add(statuePanel);//状态提示内容
+            
+        }
+        #endregion
+        #region param area
+        void DrawParamArea(Control parent)
+        {
+            string[] actionBtns = new string[] { "Normal","Fatty","Dense"};
+            string[] actionBtnsId = new string[] { "btnNormal", "btnFatty", "btnDense" };
+            string[] lightBtns = new string[] { "AEC","Manual","Focus","Time","mAs" };
+            string[] lightBtnsId = new string[] { "btnAEC", "btnManual", "btnFocus", "btnTime", "btnmAs" };
+            XPPanel action = new XPPanel();
+            Dictionary<string, string> actiondic = new Dictionary<string, string>();
+            for (int i = 0; i < actionBtns.Length; i++)
+            {
+                actiondic.Add(actionBtnsId[i], actionBtns[i]);
+            }
+            DrawBtns(actiondic, action);
+            Dictionary<string, string> lightdic = new Dictionary<string, string>();
+            for (int i = 0; i < lightBtnsId.Length; i++)
+            {
+                lightdic.Add(lightBtnsId[i], lightBtns[i]);
+            }
+            DrawBtns(lightdic, action);
+        }
+        void DrawBtns(Dictionary<string,string> btns,Control parent)
+        {
+            int count = btns.Count;
+            int c = 0;
+            foreach (var item in btns)
+            {
+                c++;
+                Point p = new Point(parent.Location.X + c * (SystemConfig.MarginRight) + 50);
+                XPButton btn = new XPButton()
+                {
+                    Name = item.Key,
+                    Text = item.Value,
+                    Location=p
+                };
+                btn.Click += new EventHandler(Button_Click);
+                parent.Controls.Add(btn);
+            }
+        }
+        #endregion
+        void InitText(Control target,string msg)
+        {
+            target.Text = msg;
+        }
+        void RefreshStatuePanel(Control target,string msg)
+        {
+            if (target.InvokeRequired)
+            {//这是进行异步请求
+                target.Invoke(new Action(()=>
+                {
+                    RefreshStatuePanel(target, msg);
+                }));
+                return;
+            }
+            target.Text = msg;
+            target.Refresh();
+        }
+        #endregion
+        #region size change event
+        void SizeChange_event(object sender,EventArgs e)
+        {
+            //判断是否渲染了其他元素
+            int w = container.Width;
+            int h = container.Height;
+            //0.2 0.5 0.3
+            XPTableLayoutPanel table = container.Controls.Find("table",false)[0] as XPTableLayoutPanel ;
+            table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0f));
+            table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0f));
+            table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.0f));
+        }
+        
+        #endregion
+        #region api response
+        void BtnReset(object sender, EventArgs e)
+        { }
+        void Button_Click(object sender,EventArgs e)
+        {
+
+        }
+        #endregion
+    }
+    #endregion
 }

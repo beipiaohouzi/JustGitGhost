@@ -291,6 +291,18 @@ namespace AppsettingHelp
                 return addActionIcon;
             }
         }
+        static string headAheadImg;
+        public static string DeadAheadImg
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(headAheadImg))
+                {
+                    headAheadImg = ImageDir + ReadAppSettingItem("DeadAheadImg");
+                }
+                return headAheadImg;
+            }
+        }
         #endregion
         #region common appsetting
         static string eleHeight;
@@ -386,7 +398,8 @@ namespace CommonHelper
         {
             DateTime now = DateTime.Now;
             //日志按照月份汇总
-            string file = now.ToString("");//日志以天为文件存储
+            string file = now.ToString("yyyyMMdd")+".log";//日志以天为文件存储
+            Logger.CreateLogFile(log, AppDomain.CurrentDomain.BaseDirectory + "/Log", title, file, true);
         }
     }
 }
