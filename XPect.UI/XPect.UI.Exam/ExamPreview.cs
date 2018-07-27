@@ -135,6 +135,7 @@ namespace XPect.UI.Exam
             AppendButton("btnDelete", "Delete /Recover", btns);
             AppendButton("btnCopy", "Copy View", btns);
             AppendButton("btnEdit", "Edit View", btns);
+            AppendButton("btnReload", "Reload Page", btns);
             int width = container.Width;
             Point loc = container.Location;
             int num = btns.Count;
@@ -155,6 +156,7 @@ namespace XPect.UI.Exam
                 ForeColor=Color.Black,
                 BackColor=Color.White
             };
+            btn.Click += new EventHandler(Button_Click);
             btns.Add(btn);
         }
         #endregion
@@ -178,7 +180,7 @@ namespace XPect.UI.Exam
             ResizePicture(pictureContainer);
             //底部工具栏调整
             XPPanel bottom= rightP.Controls.Find("bottomBarPanel",false)[0] as XPPanel;
-            BottonsLocaltionChange(bottom);
+            BottonsLocationChange(bottom);
             this.Refresh();//界面刷新
         }
         void ResizePicture(XPPanel contain)
@@ -196,44 +198,38 @@ namespace XPect.UI.Exam
             int column = layoutSize[1];//列
             int heightSpanNum = (row - 1) * imageHeightSpan; //图片上下间隔总数
             int imageSize = row * column;
-            for (int r = 0; r < row; r++) 
+            int curRow = 0;
+            int curColumn = 0;
+            foreach (var picCon in contain.Controls)
             {
-                bool isEnd = false;
-                for (int c = 0; c < column; c++)
+                int index = curColumn + curRow * column + 1;
+                
+                //实际上增加的元素数目少于自动调整窗体大小之后可以排放的数目
+                XPImagePanel pic = picCon as XPImagePanel;
+                pic.Location = new Point(curColumn * imageWidth + imageWightSpan * curColumn, 
+                    imageHeight * curRow + imageHeightSpan * curRow);
+                pic.Width = imageWidth;
+                pic.Height = imageHeight;
+                if (index == count)
                 {
-                    int index = c + r * column + 1;
-                    if (index > count)
-                    {
-                        isEnd = true;
-                        break;
-                    }
-                    string name = string.Format(imageIdFormat, index);//ele  id
-                    Control[] ele = contain.Controls.Find(name, false);
-                    if (ele.Length == 0)
-                    {//实际上增加的元素数目少于自动调整窗体大小之后可以排放的数目
-                        continue;
-                    }
-                    XPImagePanel pic = ele[0] as XPImagePanel;
-                    pic.Location = new Point(c * imageWidth + imageWightSpan * c, imageHeight * r + imageHeightSpan * r);
-                    pic.Width = imageWidth;
-                    pic.Height = imageHeight;
-                    if (index == count)
-                    {
-                       // pic.BackgroundImageLayout = ImageLayout.Zoom;
-                    }
-                    else if ( pic.BackgroundImage != null && pic.Width < pic.BackgroundImage.Width)
-                    {//最后一张图片不需要进行自适应
-                      //  pic.BackgroundImageLayout = ImageLayout.Stretch;
-                    }
+                    // pic.BackgroundImageLayout = ImageLayout.Zoom;
                 }
-                if (isEnd)
+                else if (pic.BackgroundImage != null && pic.Width < pic.BackgroundImage.Width)
+                {//最后一张图片不需要进行自适应
+                 //  pic.BackgroundImageLayout = ImageLayout.Stretch;
+                }
+                curColumn++;
+                //判断显示的图片是否需要换行
+                if (curColumn == column)
                 {
-                    break;
+                    curRow++;
+                    curColumn = 0;
                 }
             }
+            
             this.Refresh();
         }
-        void BottonsLocaltionChange(XPPanel container)
+        void BottonsLocationChange(XPPanel container)
         {
             int w = container.Parent.Width;
             Control.ControlCollection eles = container.Controls;
@@ -326,14 +322,16 @@ namespace XPect.UI.Exam
                     Location = new Point(temp.X, temp.Y),
                     Width = add.Width,
                     Height = add.Height,
-                    Name = string.Format(imageIdFormat, parent.Controls.Count+1)
+                    Name = string.Format(imageIdFormat, parent.Controls.Count)
                 };
                 newp.RefreshDesc(DateTime.Now.ToString("yyyyMM"));
                 newp.RefreshImage(image);
                 //进行图片替换测试
                 // SystemConfig.DeadAheadImg
-                string ele = string.Format(imageIdFormat, parent.Controls.Count/2);
-                (parent.Controls.Find(ele, false)[0] as XPImagePanel).RefreshImage(SystemConfig.DeadAheadImg);
+                Control pc = parent.Controls[parent.Controls.Count / 2];
+                //当前随机选中的目标
+                ("while replace imge:"+pc.Name).WriteLog("ClickId");
+                (pc as XPImagePanel).RefreshImage(SystemConfig.DeadAheadImg);
                 newp.Click += new EventHandler(CommonPcitureBoxClick);
                 parent.Controls.Add(newp);
                 if (newW <= pw)
@@ -350,6 +348,15 @@ namespace XPect.UI.Exam
             else
             {
                 //对操作的下一个图片进行影像替换/加载
+            }
+        }
+        void Button_Click(object sender,EventArgs e)
+        {
+            Button btn = sender as Button;
+            string name = btn.Name;
+            if (name == "btnReload")
+            {
+                PageSizeChange();
             }
         }
         #endregion

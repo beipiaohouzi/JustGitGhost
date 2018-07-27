@@ -19,13 +19,32 @@ namespace XPect.UI.Exam
             //new StudyParamFrm(this);
             InitEle();
         }
+
         /// <summary>
-        /// 影像联动曝光参数的响应事件
+        ///影像联动曝光参数的响应事件 
         /// </summary>
-        public FrmCallEvent StudyLinkageFocuParam { get; private set; }
+        public FrmCallEvent StudyLinkageFocuParam { get;private set; }
         void InitEle()
         {
             BindEvent();
+            
+        }
+        /// <summary>
+        /// 请求底层硬件
+        /// </summary>
+        /// <param name="callMachineAction">请求硬件的动作</param>
+        public void CallMachine(FrmCallEvent callMachineAction)
+        {
+            //页面处理完毕之后进行的动作
+            FocusParam param = new FocusParam()
+            {
+                Kvp = int.Parse(lblKvpValue.Text),
+                Mas = int.Parse(lblMasValue.Text)
+            };
+            if (callMachineAction != null)
+            {
+                callMachineAction(param);
+            }
         }
         void BindEvent()
         {
