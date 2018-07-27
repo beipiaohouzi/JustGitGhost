@@ -51,7 +51,7 @@
       <HintPath>..\lib\XPect.Lib.WinFormsUI.Docking.dll</HintPath>
     </Reference>
     <Reference Include="XPect.Lib.XPControl">
-      <HintPath>..\..\XPect.Lib\XPect.Lib.XPControl\obj\Debug\XPect.Lib.XPControl.dll</HintPath>
+      <HintPath>..\lib\XPect.Lib.XPControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
