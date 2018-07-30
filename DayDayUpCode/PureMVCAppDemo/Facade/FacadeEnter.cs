@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace PureMVCAppDemo
 {
     using PureMVCAppDemo.Command;
+    #region 常规处理
     public class FacadeEnter
     {
         public void MVCRegister()
@@ -30,7 +31,7 @@ namespace PureMVCAppDemo
     }
     public class OutSideCall
     {
-        static IFacade fa;
+        public static IFacade fa { get; private set; }
         static OutSideCall()
         {
             AfterRegisterCall();
@@ -58,5 +59,58 @@ namespace PureMVCAppDemo
             fa.RemoveMediator(mediator);
             fa.RegisterMediator(ins.RegisterForm(mediator, form));
         }
+       
     }
+    #endregion
+    
+    public class NotifyBody
+    {
+        public string Msg { get; set; }
+        public object From { get; set; }
+    }
+    #region register
+    public class BasePureMVCCommand:PureMVC.Patterns.Command.SimpleCommand
+    {
+        public override void SendNotification(string notificationName, object body, string type)
+        {
+            base.SendNotification(notificationName, body, type);
+        }
+        
+    }
+    public class BasePureMVCMediator : PureMVC.Patterns.Mediator.Mediator
+    {
+        public string fac;
+        public object view;
+        public BasePureMVCMediator(string fac, object view) : base(fac,view)
+        {
+            this.fac = fac;
+            this.view = view;
+        }
+        public override void HandleNotification(INotification notification)
+        {
+            base.HandleNotification(notification);
+        }
+    }
+    public class FacadeFactory : Facade
+    {
+         string factory = "factory";
+        public FacadeFactory(string fac) : base(fac)
+        {
+
+        }
+        protected override void InitializeController()
+        {
+            Facade fac = new Facade(factory) ;
+            //注册
+             
+            base.InitializeController();
+        }
+        public override void SendNotification(string notificationName, object body = null, string type = null)
+        {
+            multitonKey = notificationName;
+            base.SendNotification(notificationName, body, type);
+        }
+        
+    }
+    #endregion
 }

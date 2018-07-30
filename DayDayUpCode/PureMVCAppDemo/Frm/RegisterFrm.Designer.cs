@@ -36,7 +36,7 @@
             // 
             this.rtbTip.Location = new System.Drawing.Point(12, 12);
             this.rtbTip.Name = "rtbTip";
-            this.rtbTip.Size = new System.Drawing.Size(260, 195);
+            this.rtbTip.Size = new System.Drawing.Size(352, 195);
             this.rtbTip.TabIndex = 1;
             this.rtbTip.Text = "";
             // 
@@ -54,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(388, 261);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.rtbTip);
             this.Name = "RegisterFrm";

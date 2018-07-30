@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using PureMVC.Interfaces;
 namespace PureMVCAppDemo
 {
     /// <summary>
@@ -15,7 +15,7 @@ namespace PureMVCAppDemo
     /// </summary>
     /// <param name="data"></param>
     public delegate void CallFormDoMutual(object data);
-    public partial class LoginFrm : BaseForm
+    public partial class LoginFrm : BaseForm, IMediator, INotifier
     {
         public LoginFrm()
         {
@@ -26,7 +26,7 @@ namespace PureMVCAppDemo
         public CallFormDoMutual Call { get; private set; }
         void Init()
         {
-            Call = CallTodo;
+            RegisterMediator();
         }
         public override void CallTodo(object data)
         {
@@ -37,9 +37,71 @@ namespace PureMVCAppDemo
 
         private void button1_Click(object sender, EventArgs e)
         {
-            BaseForm bf = OutSideCall.GetFormInstance(typeof(RegisterFrm).Name) as BaseForm;
-            string tip = this.GetType().Name + " call " + bf.GetType().Name;
-            bf.CallTodo(tip);
+           // BaseForm bf = OutSideCall.GetFormInstance(typeof(RegisterFrm).Name) as BaseForm;
+            string tip = this.GetType().Name + " call " + this.GetType().Name;
+            SendNotification(MediatorName, tip, ListNotificationInterests()[0]);
+        }
+        #region implementation
+        public string MediatorName
+        {
+            get
+            {
+                return this.GetType().Name;
+            }
+        }
+
+        public object ViewComponent
+        {
+            get
+            {
+                return this;
+            }
+
+            set
+            {
+                value = this;
+            }
+        }
+
+        public string[] ListNotificationInterests()
+        {
+            return new string[] { "1" };
+        }
+
+        public void HandleNotification(INotification notification)
+        {
+            object data = notification.Body;
+            string name = notification.Name;
+            return;
+        }
+
+        public void OnRegister()
+        {
+
+        }
+
+        public void OnRemove()
+        {
+
+        }
+
+        public void SendNotification(string notificationName, object body, string type)
+        {
+            instance.SendNotification(notificationName, body, type);
+
+        }
+
+        public void InitializeNotifier(string key)
+        {
+            return;
+        }
+        #endregion
+        public LoginFrmMediator instance;
+        public void RegisterMediator()
+        {
+            instance = new LoginFrmMediator(MediatorName, ViewComponent);
+            FacadeFactory fac = new FacadeFactory(MediatorName);
+            fac.RegisterMediator(instance);
         }
     }
 }

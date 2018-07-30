@@ -33,6 +33,12 @@ namespace PureMVCAppDemo
                 };
                 btn.Click += new EventHandler(Button_Click);
                 this.Controls.Add(btn);
+
+                //进行puremvc注册
+                string name = forms[i];
+                Form frm = OutSideCall.GetFormInstance(name);
+               // FormFacade fc = new FormFacade(name, frm);
+              //  fc.StartUp();
             }
         }
         void Button_Click(object sender, EventArgs e)
@@ -48,7 +54,7 @@ namespace PureMVCAppDemo
                 else { }
             }
             string tip = this.GetType().Name + " call " + lf.GetType().Name;
-            lf.CallTodo(tip);
+             
         }
     }
 }
