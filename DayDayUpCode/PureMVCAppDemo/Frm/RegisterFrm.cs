@@ -41,7 +41,7 @@ namespace PureMVCAppDemo
         {
             get
             {
-                return this.GetType().Name;
+                return "AAAAA";
             }
         }
 
@@ -98,9 +98,10 @@ namespace PureMVCAppDemo
         public void RegisterMediator()
         {
             instance = new RegisterFrmMediator(MediatorName, ViewComponent);
-            fac = new FacadeFactory(MediatorName);
+            fac = new FacadeFactory(typeof(LoginFrm).Name);
             fac.RegisterMediator(instance);
-            
+            LoginCommand lf = new LoginCommand();
+            fac.RegisterCommand(MediatorName,()=>lf);
         }
     }
    

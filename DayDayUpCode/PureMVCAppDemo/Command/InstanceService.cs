@@ -34,6 +34,19 @@ namespace PureMVCAppDemo
         }
         public override void Execute(INotification notification)
         {
+           // SendNotification(notification.Name, notification.Body, notification.Type);
+            base.Execute(notification);
+        }
+        public override void SendNotification(string notificationName, object body, string type)
+        {
+            base.SendNotification(notificationName, body, type);
+        }
+    }
+    public class RegisterCommand : SimpleCommand
+    {
+        public RegisterCommand() { }
+        public override void Execute(INotification notification)
+        {
             base.Execute(notification);
         }
         public override void SendNotification(string notificationName, object body, string type)

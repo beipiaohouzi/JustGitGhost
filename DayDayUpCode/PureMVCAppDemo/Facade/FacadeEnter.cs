@@ -94,22 +94,19 @@ namespace PureMVCAppDemo
         string factory = "factory";
         public FacadeFactory(string fac) : base(fac)
         {
-
+            factory = fac;
         }
         protected override void InitializeController()
         {
             base.InitializeController();
             //registe
-             
+            RegisterCommand(typeof(LoginCommand).Name, ()=>new LoginCommand());
+            RegisterCommand(typeof(RegisterCommand).Name, () => new RegisterCommand());
         }
-        protected override void InitializeView()
-        {
-            base.InitializeView();
-            //RegisterMediator(new LoginFrmMediator(typeof(LoginFrm).Name, new LoginFrm()));
-        }
+       
         public override void SendNotification(string notificationName, object body = null, string type = null)
         {
-            multitonKey = notificationName;
+            multitonKey = factory;
             base.SendNotification(notificationName, body, type);
         }
         public override void RegisterMediator(IMediator mediator)
