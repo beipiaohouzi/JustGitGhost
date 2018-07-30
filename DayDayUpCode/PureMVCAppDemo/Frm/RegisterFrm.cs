@@ -41,7 +41,7 @@ namespace PureMVCAppDemo
         {
             get
             {
-                return "AAAAA";
+                return "BBB";
             }
         }
 
@@ -60,7 +60,7 @@ namespace PureMVCAppDemo
 
         public string[]  ListNotificationInterests()
         {
-            return new  string[]{ "2"};
+            return new  string[]{ "BBB" };
         }
 
         public void  HandleNotification(INotification notification)
@@ -85,7 +85,7 @@ namespace PureMVCAppDemo
         public void  SendNotification(string notificationName, object body, string type)
         {
             // instance.SendNotification(notificationName, body, type);
-            fac.SendNotification(notificationName, body, type);
+            instance.SendNotification(notificationName, body, type);
         }
 
         public void  InitializeNotifier(string key)

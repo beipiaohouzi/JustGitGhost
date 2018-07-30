@@ -53,5 +53,6 @@ namespace PureMVCAppDemo
         {
             base.SendNotification(notificationName, body, type);
         }
+       
     }
 }
