@@ -72,6 +72,8 @@ namespace PureMVCAppDemo
         {
             object data = notification.Body;
             string name = notification.Name;
+            string text = data as string;
+            rtbTip.Text += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+ text +"\r\n";
             return;
         }
 
@@ -100,8 +102,9 @@ namespace PureMVCAppDemo
         public void RegisterMediator()
         {
             instance = new LoginFrmMediator(MediatorName, ViewComponent);
-            FacadeFactory fac = new FacadeFactory(MediatorName);
-            fac.RegisterMediator(instance);
+            //FacadeFactory fac = new FacadeFactory(MediatorName);
+           // fac.RegisterMediator(instance);
+            //fac.RegisterCommand(MediatorName, () => new LoginCommand());
         }
     }
 }

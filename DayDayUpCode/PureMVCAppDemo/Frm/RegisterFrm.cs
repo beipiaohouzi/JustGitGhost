@@ -60,13 +60,15 @@ namespace PureMVCAppDemo
 
         public string[]  ListNotificationInterests()
         {
-            return new  string[]{ "1"};
+            return new  string[]{ "2"};
         }
 
         public void  HandleNotification(INotification notification)
         {
             object data = notification.Body;
             string name = notification.Name;
+            string text = data as string;
+            rtbTip.Text += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + text + "\r\n";
             return;
         }
 
@@ -82,8 +84,8 @@ namespace PureMVCAppDemo
 
         public void  SendNotification(string notificationName, object body, string type)
         {
-            instance.SendNotification(notificationName, body, type);
-
+            // instance.SendNotification(notificationName, body, type);
+            fac.SendNotification(notificationName, body, type);
         }
 
         public void  InitializeNotifier(string key)
@@ -92,11 +94,13 @@ namespace PureMVCAppDemo
         }
         #endregion
         public RegisterFrmMediator instance;
+        FacadeFactory fac;
         public void RegisterMediator()
         {
             instance = new RegisterFrmMediator(MediatorName, ViewComponent);
-            FacadeFactory fac = new FacadeFactory(MediatorName);
+            fac = new FacadeFactory(MediatorName);
             fac.RegisterMediator(instance);
+            
         }
     }
    

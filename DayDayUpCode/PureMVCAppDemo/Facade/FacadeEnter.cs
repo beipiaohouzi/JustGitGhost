@@ -8,7 +8,6 @@ using PureMVC.Interfaces;
 using System.Windows.Forms;
 namespace PureMVCAppDemo
 {
-    using PureMVCAppDemo.Command;
     #region 常规处理
     public class FacadeEnter
     {
@@ -17,16 +16,12 @@ namespace PureMVCAppDemo
             string name = typeof(FacadeEnter).Name;
             IFacade fa = Facade.GetInstance(name, () => new Facade(name));
             InstanceService ins = new InstanceService();
-            fa.RegisterMediator(ins.RegisterForm(typeof(LoginFrm).Name,new LoginFrm()));
+            LoginFrmMediator lfm = new LoginFrmMediator(typeof(LoginFrm).Name, new LoginFrm());
+            fa.RegisterMediator(lfm);
             fa.RegisterMediator(ins.RegisterForm(typeof(RegisterFrm).Name, new RegisterFrm()));
             fa.RegisterMediator(ins.RegisterForm(typeof(LoginListFrm).Name, new LoginListFrm()));
             fa.RegisterMediator(ins.RegisterForm(typeof(RegisterListFrm).Name, new RegisterListFrm()));
 
-            IMediator m = fa.RetrieveMediator(typeof(LoginFrm).Name);
-            Form obj = m.ViewComponent as Form;
-           // IMediator me = new InstanceService().mediator;
-           // fa.SendNotification(typeof(InstanceService).Name, me);
-            
         }
     }
     public class OutSideCall
@@ -75,7 +70,10 @@ namespace PureMVCAppDemo
         {
             base.SendNotification(notificationName, body, type);
         }
-        
+        public override void Execute(INotification notification)
+        {
+            base.Execute(notification);
+        }
     }
     public class BasePureMVCMediator : PureMVC.Patterns.Mediator.Mediator
     {
@@ -93,24 +91,36 @@ namespace PureMVCAppDemo
     }
     public class FacadeFactory : Facade
     {
-         string factory = "factory";
+        string factory = "factory";
         public FacadeFactory(string fac) : base(fac)
         {
 
         }
         protected override void InitializeController()
         {
-            Facade fac = new Facade(factory) ;
-            //注册
-             
             base.InitializeController();
+            //registe
+             
+        }
+        protected override void InitializeView()
+        {
+            base.InitializeView();
+            //RegisterMediator(new LoginFrmMediator(typeof(LoginFrm).Name, new LoginFrm()));
         }
         public override void SendNotification(string notificationName, object body = null, string type = null)
         {
             multitonKey = notificationName;
             base.SendNotification(notificationName, body, type);
         }
-        
+        public override void RegisterMediator(IMediator mediator)
+        {
+            base.RegisterMediator(mediator);
+        }
+        public override void RegisterCommand(string notificationName, Func<ICommand> commandClassRef)
+        {
+            base.RegisterCommand(notificationName, commandClassRef);
+        }
     }
     #endregion
+     
 }

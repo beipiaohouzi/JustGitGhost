@@ -36,9 +36,8 @@ namespace PureMVCAppDemo
 
                 //进行puremvc注册
                 string name = forms[i];
-                Form frm = OutSideCall.GetFormInstance(name);
-               // FormFacade fc = new FormFacade(name, frm);
-              //  fc.StartUp();
+               // Form frm = OutSideCall.GetFormInstance(name);
+                
             }
         }
         void Button_Click(object sender, EventArgs e)
@@ -54,7 +53,8 @@ namespace PureMVCAppDemo
                 else { }
             }
             string tip = this.GetType().Name + " call " + lf.GetType().Name;
-             
+           // FormFacade fc = new FormFacade(formName, this);
+           // OutSideCall.SendNotify(typeof(LoginFrm).Name, tip);
         }
     }
 }
