@@ -60,7 +60,7 @@ namespace PureMVCAppDemo
 
         public string[]  ListNotificationInterests()
         {
-            return new  string[]{ "BBB" };
+            return new  string[]{ MediatorName };
         }
 
         public void  HandleNotification(INotification notification)
@@ -84,7 +84,6 @@ namespace PureMVCAppDemo
 
         public void  SendNotification(string notificationName, object body, string type)
         {
-            // instance.SendNotification(notificationName, body, type);
             instance.SendNotification(notificationName, body, type);
         }
 
@@ -92,16 +91,14 @@ namespace PureMVCAppDemo
         {
             return;
         }
-        #endregion
-        public RegisterFrmMediator instance;
-        FacadeFactory fac;
+        #endregion 
+        FacadeFactory instance;
         public void RegisterMediator()
         {
-            instance = new RegisterFrmMediator(MediatorName, ViewComponent);
-            fac = new FacadeFactory(typeof(LoginFrm).Name);
-            fac.RegisterMediator(instance);
+            instance = new FacadeFactory(typeof(LoginFrm).Name);
+            instance.RegisterMediator(this);
             LoginCommand lf = new LoginCommand();
-            fac.RegisterCommand(MediatorName,()=>lf);
+            instance.RegisterCommand(MediatorName,()=>lf);
         }
     }
    
