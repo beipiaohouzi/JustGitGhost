@@ -12,14 +12,22 @@ namespace PureMVCAppDemo
         public RegisterFrmMediator(string name, object obj) : base(name, obj)
         {
             MultitonKey = name;
+            mediator = obj;
         }
+        object mediator;
         public override void SendNotification(string notificationName, object body, string type)
         {
             base.SendNotification(notificationName, body, type);
         }
         public override void HandleNotification(INotification notification)
         {
-            base.HandleNotification(notification);
+            if (mediator != null)
+            {
+                IMediator m = mediator as IMediator;
+                m.HandleNotification(notification);
+            }
+            else
+                base.HandleNotification(notification);
         }
         public override string[] ListNotificationInterests()
         {
