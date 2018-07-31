@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PureMVC.Interfaces;
+using PureMVC.Patterns.Mediator;
 namespace PureMVCAppDemo
 {
     public partial class BaseForm : Form
@@ -32,7 +33,7 @@ namespace PureMVCAppDemo
             OutSideCall.ReplaceForm(bf);
         } 
     }
-    public partial class BaseView : Form,PureMVC.Interfaces.IMediator, PureMVC.Interfaces.INotifier
+    public partial  class BaseView : Form,PureMVC.Interfaces.IMediator, PureMVC.Interfaces.INotifier
     {
         public BaseView()
         {
@@ -53,10 +54,11 @@ namespace PureMVCAppDemo
                 value = this;
             }
         }
+        string[] listenceNotify;
 
         public string[] ListNotificationInterests()
         {
-            return new string[] { MediatorName };
+            return listenceNotify;
         }
          
         public void OnRegister()
@@ -84,8 +86,9 @@ namespace PureMVCAppDemo
             instance.SendNotification(notificationName, body, type);
 
         }
-        public void HandleNotification(INotification notification)
+        public virtual void HandleNotification(INotification notification)
         {
+           
             return;
         }
         #endregion
@@ -94,15 +97,44 @@ namespace PureMVCAppDemo
         /// <summary>
         /// 这里需要基类调用才生效
         /// </summary>
-        public void RegisterMediator()
-        { 
-            instance =   FacadeFactory.GetInstance();
-            instance.RegisterMediator(this);
-            instance.RegisterCommand(MediatorName, () => new RegisterCommand());
+        public void RegisterMediator(string[] monitorNotify, string mediatorName)
+        {
+            listenceNotify = monitorNotify;//监听的消息分类
+            MediatorName = mediatorName;
+            instance = FacadeFactory.GetInstance();
+            //注解 view
+            BaseMediator bm = new BaseMediator(mediatorName, this, monitorNotify);
+            instance.RegisterMediator(bm);
+            //注解 controller
+            //  instance.RegisterCommand(MediatorName, () => new RegisterCommand());
+            //注解model
+
         }
         
     }
-
+    public class BaseMediator : Mediator, INotifier
+    {
+        public BaseMediator(string name, IMediator obj, string[] montiorNotify) : base(name,obj)
+        {
+            med = obj;
+            this.montiorNotify = montiorNotify;
+        }
+        IMediator med;
+        public override void HandleNotification(INotification notification)
+        {
+            if (med != null)
+            {
+                med.HandleNotification(notification);
+            }
+            else
+                base.HandleNotification(notification);
+        }
+        string[] montiorNotify;
+        public override string[] ListNotificationInterests()
+        {
+            return montiorNotify;
+        }
+    }
     partial class BaseView
     {
         /// <summary>

@@ -31,7 +31,7 @@ namespace PureMVCAppDemo
         }
         public override string[] ListNotificationInterests()
         {
-            return new string[] { NotifyType.Register.ToString(), NotifyType.Login.ToString() };
+            return new string[] { NotifyType.Register.ToString(), NotifyType.Login.ToString(),NotifyType.Accounts.ToString() };
         }
     }
     public class LoginFrmMediator : Mediator, INotifier
@@ -59,7 +59,7 @@ namespace PureMVCAppDemo
 
         public override string[] ListNotificationInterests()
         {
-            return new string[] { NotifyType.Login.ToString(), NotifyType.Register.ToString()};
+            return new string[] { NotifyType.Login.ToString(), NotifyType.Register.ToString(), NotifyType.Accounts.ToString() };
         }
     }
     /// <summary>
