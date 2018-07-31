@@ -91,10 +91,18 @@ namespace PureMVCAppDemo
     }
     public class FacadeFactory : Facade
     {
-        string factory = "factory";
-        public FacadeFactory(string fac) : base(fac)
+        static string factory = "factory";
+        FacadeFactory() : base(factory)
+        { 
+        }
+        static FacadeFactory instance;
+        public static FacadeFactory GetInstance()
         {
-            factory = fac;
+            if (instance == null)
+            {
+                return new FacadeFactory();
+            }
+            return instance;
         }
         protected override void InitializeController()
         {

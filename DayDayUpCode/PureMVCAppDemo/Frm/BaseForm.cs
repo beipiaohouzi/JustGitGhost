@@ -96,7 +96,7 @@ namespace PureMVCAppDemo
         /// </summary>
         public void RegisterMediator()
         { 
-            instance = new FacadeFactory(MediatorName);
+            instance =   FacadeFactory.GetInstance();
             instance.RegisterMediator(this);
             instance.RegisterCommand(MediatorName, () => new RegisterCommand());
         }
