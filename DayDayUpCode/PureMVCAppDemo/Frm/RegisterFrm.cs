@@ -34,7 +34,7 @@ namespace PureMVCAppDemo
         {//进行消息发送
             string tip = this.GetType().Name + " send : " + txtMsg.Text;
             // OutSideCall.SendNotify(typeof(RegisterFrm).Name, tip);
-            SendNotification(MediatorName, tip, ListNotificationInterests()[0]);
+            SendNotification(MediatorName, tip, MediatorMsgType.Call.ToString());
         }
         #region implementation
         public string MediatorName

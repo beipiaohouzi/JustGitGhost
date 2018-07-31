@@ -65,7 +65,7 @@ namespace PureMVCAppDemo
 
         public string[] ListNotificationInterests()
         {
-            return new string[] { MediatorName,  NotifyType.Accounts.ToString() };
+            return new string[] { NotifyType.Login.ToString(),  NotifyType.Accounts.ToString() };
         }
 
         public void HandleNotification(INotification notification)

@@ -31,7 +31,7 @@ namespace PureMVCAppDemo
         }
         public override string[] ListNotificationInterests()
         {
-            return new string[] { NotifyType.Register.ToString() };
+            return new string[] { NotifyType.Register.ToString(), NotifyType.Login.ToString() };
         }
     }
     public class LoginFrmMediator : Mediator, INotifier
