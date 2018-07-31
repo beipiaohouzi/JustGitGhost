@@ -22,6 +22,7 @@ namespace PureMVCAppDemo
             List<string> forms = new List<string>();
             forms.Add(typeof(LoginFrm).Name);
             forms.Add(typeof(RegisterFrm).Name);
+            forms.Add(typeof(RegisterListFrm).Name);
             Point p = this.Location;
             for (int i = 0; i < forms.Count; i++)
             {
@@ -45,14 +46,13 @@ namespace PureMVCAppDemo
             Button b = (sender as Button);
             string formName = b.Name;
             Form frm = OutSideCall.GetFormInstance(formName);
-            BaseForm lf = frm as BaseForm;
-            if (!lf.IsHandleCreated)
+            if (!frm.IsHandleCreated)
             {//判断窗体是否已经加载
-                if (!lf.IsDisposed)//如果没有被销毁【窗体为进行关闭】
-                    lf.Show();
+                if (!frm.IsDisposed)//如果没有被销毁【窗体为进行关闭】
+                    frm.Show();
                 else { }
             }
-            string tip = this.GetType().Name + " call " + lf.GetType().Name;
+            string tip = this.GetType().Name + " call " + frm.GetType().Name;
            // FormFacade fc = new FormFacade(formName, this);
            // OutSideCall.SendNotify(typeof(LoginFrm).Name, tip);
         }

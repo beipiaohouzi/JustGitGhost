@@ -37,8 +37,8 @@ namespace PureMVCAppDemo
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // BaseForm bf = OutSideCall.GetFormInstance(typeof(RegisterFrm).Name) as BaseForm;
-            string tip = this.GetType().Name + " call " + this.GetType().Name;
+            // BaseForm bf = OutSideCall.GetFormInstance(typeof(RegisterFrm).Name) as BaseForm;
+            string tip = this.GetType().Name + " send : " + txtMsg.Text;
             SendNotification(MediatorName, tip, ListNotificationInterests()[0]);
         }
         #region implementation
@@ -46,7 +46,7 @@ namespace PureMVCAppDemo
         {
             get
             {
-                return "AAAAA";
+                return NotifyType.Login.ToString();
             }
         }
 
@@ -65,7 +65,7 @@ namespace PureMVCAppDemo
 
         public string[] ListNotificationInterests()
         {
-            return new string[] { MediatorName };
+            return new string[] { MediatorName,  NotifyType.Accounts.ToString() };
         }
 
         public void HandleNotification(INotification notification)
@@ -73,7 +73,7 @@ namespace PureMVCAppDemo
             object data = notification.Body;
             string name = notification.Name;
             string text = data as string;
-            rtbTip.Text += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+ text +"\r\n";
+            rtbTip.Text += "\r\n"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+ text ;
             return;
         }
 
@@ -104,7 +104,8 @@ namespace PureMVCAppDemo
         {
             //instance = new LoginFrmMediator(MediatorName, ViewComponent);
             instance = new FacadeFactory(MediatorName);
-            instance.RegisterMediator(this);
+            LoginFrmMediator lm = new LoginFrmMediator(MediatorName, this);
+            instance.RegisterMediator(lm);
             instance.RegisterCommand(MediatorName, () => new RegisterCommand());
             
         }

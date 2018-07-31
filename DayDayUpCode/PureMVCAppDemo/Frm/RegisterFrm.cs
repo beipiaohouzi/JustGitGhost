@@ -32,7 +32,7 @@ namespace PureMVCAppDemo
 
         private void button1_Click(object sender, EventArgs e)
         {//进行消息发送
-            string tip = this.GetType().Name + " do message send" ;
+            string tip = this.GetType().Name + " send : " + txtMsg.Text;
             // OutSideCall.SendNotify(typeof(RegisterFrm).Name, tip);
             SendNotification(MediatorName, tip, ListNotificationInterests()[0]);
         }
@@ -41,7 +41,7 @@ namespace PureMVCAppDemo
         {
             get
             {
-                return "BBB";
+                return NotifyType.Login.ToString();
             }
         }
 
@@ -60,7 +60,7 @@ namespace PureMVCAppDemo
 
         public string[]  ListNotificationInterests()
         {
-            return new  string[]{ MediatorName };
+            return new  string[]{ MediatorName, NotifyType.Register.ToString() };
         }
 
         public void  HandleNotification(INotification notification)
@@ -68,7 +68,7 @@ namespace PureMVCAppDemo
             object data = notification.Body;
             string name = notification.Name;
             string text = data as string;
-            rtbTip.Text += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + text + "\r\n";
+            rtbTip.Text += "\r\n"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + text;
             return;
         }
 
