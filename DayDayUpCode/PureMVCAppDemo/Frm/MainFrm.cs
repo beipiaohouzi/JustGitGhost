@@ -21,6 +21,7 @@ namespace PureMVCAppDemo
         {
             List<string> forms = new List<string>();
             forms.Add(typeof(LoginFrm).Name);
+            forms.Add(typeof(LoginListFrm).Name);
             forms.Add(typeof(RegisterFrm).Name);
             forms.Add(typeof(RegisterListFrm).Name);
             Point p = this.Location;
