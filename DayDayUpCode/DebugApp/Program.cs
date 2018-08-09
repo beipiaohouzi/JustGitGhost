@@ -10,35 +10,45 @@ namespace DebugApp
 {
     class Program
     {
-        static BackgroundWorker bg = new BackgroundWorker();
+        
         static void Main(string[] args)
+        {
+            RunInService run = new RunInService();
+            run.Monitor();
+            Console.ReadLine();
+        }
+        
+    }
+    public class RunInService
+    {
+        static BackgroundWorker bg = new BackgroundWorker();
+        public void Monitor()
         {
             bg.DoWork += new DoWorkEventHandler(BackRun);
             bg.RunWorkerAsync();
         }
-        static void BackRun(object sender, DoWorkEventArgs e)
+        void BackRun(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
-                ToDo();
+                try
+                {
+                   LogHelper.Debug.Info("to do write log history" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss fff"));
+
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString().WriteLog("Register Nlog");
+                }
                 System.Threading.Thread.Sleep(3 * 1000);
             }
+
+        }
+        void ToDo()
+        {
             
         }
-        static void ToDo()
-        {
-            try
-            {
-                LogHelper.Debug.Info("to do write log history" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss fff"));
-
-            }
-            catch (Exception ex)
-            {
-                ex.ToString().WriteLog("Register Nlog");
-            }
-        }
     }
-
     public class LogHelper
     {
         public static NLog.Logger Debug = NLog.LogManager.GetLogger("Debug");
