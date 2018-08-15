@@ -1,0 +1,2 @@
+2018-08-16 
+“System.Data.Entity.Internal.AppConfig”的类型初始值设定项引发异常。"
