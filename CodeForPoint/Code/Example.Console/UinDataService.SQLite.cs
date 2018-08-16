@@ -30,6 +30,7 @@ namespace Example.Console
                         ParentId = -1,
                         Sort = 1
                     };
+                    list.Add(c);
                 }
                 SQLiteReporistory<CategoryData> md = new SQLiteReporistory<CategoryData>("data source=LocalDB.db;");
                 md.BatchAdd(list);

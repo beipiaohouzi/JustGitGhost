@@ -10,6 +10,7 @@ namespace Example.Console
         static void Main(string[] args)
         {
             SyncDataHelper.SyncCategory();
+            System.Console.ReadLine();
         }
     }
 }
