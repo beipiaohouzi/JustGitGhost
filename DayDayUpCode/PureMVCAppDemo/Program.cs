@@ -26,7 +26,7 @@ namespace PureMVCAppDemo
             try
             {
                 string dir = AppDomain.CurrentDomain.BaseDirectory;
-                NLogHelper.Event.Trace("ioc init");
+                NLogHelper.Workflow.Trace("ioc init");
                 FacadeEnter fac = new FacadeEnter();
                 fac.MVCRegister();
             }
@@ -38,7 +38,16 @@ namespace PureMVCAppDemo
     }
     public class NLogHelper
     {
-        public static NLog.Logger Event = NLog.LogManager.GetLogger("Event");
+        public static NLog.Logger Workflow = NLog.LogManager.GetLogger("Workflow");
+        public static NLog.Logger DBProxy = NLog.LogManager.GetLogger("DBProxy");
+        public static NLog.Logger DICOMProxy = NLog.LogManager.GetLogger("DICOMProxy");
+        public static NLog.Logger HardwareProxy = NLog.LogManager.GetLogger("HardwareProxy");
+        public static NLog.Logger Operation = NLog.LogManager.GetLogger("Operation");
+        public static NLog.Logger QueueStatus = NLog.LogManager.GetLogger("QueueStatus");
+        public static NLog.Logger CommonMessage = NLog.LogManager.GetLogger("CommonMessage");
+        public static NLog.Logger Exception = NLog.LogManager.GetLogger("Exception");
+
+        public static NLog.Logger Mail = NLog.LogManager.GetLogger("InfoMail");
     }
 
 

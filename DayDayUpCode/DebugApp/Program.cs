@@ -13,8 +13,9 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-            RunInService run = new RunInService();
-            run.Monitor();
+            BackRunService brs = new BackRunService();
+            brs.Start();
+            // run.Monitor();
             Console.ReadLine();
         }
         
@@ -44,16 +45,62 @@ namespace DebugApp
             }
 
         }
-        void ToDo()
+        public void ToDo()
         {
-            
+            List<Coordinate> footPrint = new List<Coordinate>();
+            Coordinate px = new Coordinate() { X = 11, Y = 22 };
+            footPrint.Add(px);
+            Coordinate pc = footPrint[0];
+            /* A property or indexer may not be passed as an out or ref parameter */
+            int data = 21;
+            TestStruct(ref pc,data);
+
+            List<DataChange> dc = new List<DataChange>();
+            dc.Add(new DataChange());
+            List<FootPrint> dcs = new List<FootPrint>();
+            dcs.Add(new FootPrint());
+            Coordinate coor = dcs[0].Coor;
+            TestStruct(ref coor, data);
+            //dcs[0].Coor = coor;
         }
+        public void TestStruct(ref Coordinate px,int data)
+        { 
+            px.Time = DateTime.Now;
+            px.X = 1;
+            px.Y = 2;
+        }
+        
+        
     }
-    public class LogHelper
+    public class DataChange
     {
-        public static NLog.Logger Debug = NLog.LogManager.GetLogger("Debug");
+        public FootPrint Coor;
+    }
+    public struct Coordinate
+    {
+        public int X;
+        public int Y;
+        public DateTime Time;
+    }
+    public struct FootPrint
+    {
+        public Coordinate Coor;
     }
 
+    public class LogHelper
+    {
+        public static NLog.Logger Debug = NLog.LogManager.GetLogger("Workflow");
+        public static NLog.Logger DBProxy = NLog.LogManager.GetLogger("DBProxy");
+        public static NLog.Logger DICOMProxy = NLog.LogManager.GetLogger("DICOMProxy");
+        public static NLog.Logger HardwareProxy = NLog.LogManager.GetLogger("HardwareProxy");
+        public static NLog.Logger Operation = NLog.LogManager.GetLogger("Operation");
+        public static NLog.Logger QueueStatus = NLog.LogManager.GetLogger("QueueStatus");
+        public static NLog.Logger CommonMessage = NLog.LogManager.GetLogger("CommonMessage");
+        public static NLog.Logger Exception = NLog.LogManager.GetLogger("Exception");
+
+        public static NLog.Logger Mail = NLog.LogManager.GetLogger("InfoMail");
+    }
+   
 
     //自定义日志
 
@@ -127,6 +174,39 @@ namespace DebugApp
             //日志按照月份汇总
             string file = now.ToString("yyyyMMdd") + ".log";//日志以天为文件存储
             Logger.CreateLogFile(log, AppDomain.CurrentDomain.BaseDirectory + "/Log", title, file, true);
+        }
+    }
+
+
+    public class BackRunService
+    {
+        int cur = 0;
+        BackgroundWorker bg = new BackgroundWorker();
+        public void Start()
+        {
+            bg.DoWork += new DoWorkEventHandler(BackToDo);
+            bg.RunWorkerAsync();
+        }
+        void BackToDo(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                LoggerQuickHelp.WriteLog("异步线程调用", "Calculate");
+                while (true)
+                {
+                    CallDo();
+                    System.Threading.Thread.Sleep(300);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerQuickHelp.WriteLog(ex.ToString(), "Exception");
+            }
+        }
+        void CallDo()
+        {
+            LoggerQuickHelp.WriteLog("异步线程调用execute ="+cur, "Calculate");
+            cur++;
         }
     }
 }
