@@ -13,10 +13,23 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-            BackRunService brs = new BackRunService();
-            brs.Start();
+            SqliteManage();
+            //BackRunService brs = new BackRunService();
+            //brs.Start();
             // run.Monitor();
             Console.ReadLine();
+        }
+        static void SqliteManage()
+        {
+            try
+            {
+                SqliteEFService sql = new SqliteEFService();
+                sql.Query();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         
     }

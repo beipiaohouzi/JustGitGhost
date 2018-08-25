@@ -155,11 +155,17 @@
     <Compile Include="SystemConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="readme.txt" />
+    <Content Include="XPect.Lib.DataModel.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Database\XPECT.Mammo.db" />
+    <None Include="Database\TestDB.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

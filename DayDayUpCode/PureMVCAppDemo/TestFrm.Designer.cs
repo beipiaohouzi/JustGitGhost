@@ -29,77 +29,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnAddRow = new System.Windows.Forms.Button();
-            this.btnDeleteRow = new System.Windows.Forms.Button();
-            this.ckIndex = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.corePic = new System.Windows.Forms.PictureBox();
+            this.iconPic = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.corePic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconPic)).BeginInit();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // corePic
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.ckIndex, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 57);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(479, 100);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.corePic.Location = new System.Drawing.Point(44, 39);
+            this.corePic.Name = "corePic";
+            this.corePic.Size = new System.Drawing.Size(222, 217);
+            this.corePic.TabIndex = 1;
+            this.corePic.TabStop = false;
             // 
-            // btnAddRow
+            // iconPic
             // 
-            this.btnAddRow.Location = new System.Drawing.Point(44, 28);
-            this.btnAddRow.Name = "btnAddRow";
-            this.btnAddRow.Size = new System.Drawing.Size(75, 23);
-            this.btnAddRow.TabIndex = 1;
-            this.btnAddRow.Text = "add row";
-            this.btnAddRow.UseVisualStyleBackColor = true;
-            this.btnAddRow.Click += new System.EventHandler(this.btnAddRow_Click);
-            // 
-            // btnDeleteRow
-            // 
-            this.btnDeleteRow.Location = new System.Drawing.Point(277, 28);
-            this.btnDeleteRow.Name = "btnDeleteRow";
-            this.btnDeleteRow.Size = new System.Drawing.Size(75, 23);
-            this.btnDeleteRow.TabIndex = 2;
-            this.btnDeleteRow.Text = "button2";
-            this.btnDeleteRow.UseVisualStyleBackColor = true;
-            this.btnDeleteRow.Click += new System.EventHandler(this.btnDeleteRow_Click);
-            // 
-            // ckIndex
-            // 
-            this.ckIndex.AutoSize = true;
-            this.ckIndex.Location = new System.Drawing.Point(3, 3);
-            this.ckIndex.Name = "ckIndex";
-            this.ckIndex.Size = new System.Drawing.Size(48, 16);
-            this.ckIndex.TabIndex = 0;
-            this.ckIndex.Text = "序号";
-            this.ckIndex.UseVisualStyleBackColor = true;
+            this.iconPic.Location = new System.Drawing.Point(226, 39);
+            this.iconPic.Name = "iconPic";
+            this.iconPic.Size = new System.Drawing.Size(40, 41);
+            this.iconPic.TabIndex = 0;
+            this.iconPic.TabStop = false;
             // 
             // TestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 302);
-            this.Controls.Add(this.btnDeleteRow);
-            this.Controls.Add(this.btnAddRow);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(294, 303);
+           
+           
+            this.Controls.Add(this.iconPic);
+            this.Controls.Add(this.corePic);
             this.Name = "TestFrm";
             this.Text = "tableLayoutPanelForm";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.corePic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconPic)).EndInit();
             this.ResumeLayout(false);
 
         }
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
-        private Button btnAddRow;
-        private Button btnDeleteRow;
-        private CheckBox ckIndex;
+        private PictureBox corePic;
+        private PictureBox iconPic;
     }
 }
