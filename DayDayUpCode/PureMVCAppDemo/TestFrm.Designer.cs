@@ -29,47 +29,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.corePic = new System.Windows.Forms.PictureBox();
-            this.iconPic = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.corePic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPic)).BeginInit();
+            this.btnAgain = new System.Windows.Forms.Button();
+            this.rtbTip = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // corePic
+            // btnAgain
             // 
-            this.corePic.Location = new System.Drawing.Point(44, 39);
-            this.corePic.Name = "corePic";
-            this.corePic.Size = new System.Drawing.Size(222, 217);
-            this.corePic.TabIndex = 1;
-            this.corePic.TabStop = false;
+            this.btnAgain.Location = new System.Drawing.Point(44, 3);
+            this.btnAgain.Name = "btnAgain";
+            this.btnAgain.Size = new System.Drawing.Size(75, 23);
+            this.btnAgain.TabIndex = 2;
+            this.btnAgain.Text = "Again";
+            this.btnAgain.UseVisualStyleBackColor = true;
+            this.btnAgain.Click += new System.EventHandler(this.btnAgain_Click);
             // 
-            // iconPic
+            // rtbTip
             // 
-            this.iconPic.Location = new System.Drawing.Point(226, 39);
-            this.iconPic.Name = "iconPic";
-            this.iconPic.Size = new System.Drawing.Size(40, 41);
-            this.iconPic.TabIndex = 0;
-            this.iconPic.TabStop = false;
+            this.rtbTip.Location = new System.Drawing.Point(29, 81);
+            this.rtbTip.Name = "rtbTip";
+            this.rtbTip.Size = new System.Drawing.Size(253, 184);
+            this.rtbTip.TabIndex = 3;
+            this.rtbTip.Text = "";
             // 
             // TestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(294, 303);
-           
-           
-            this.Controls.Add(this.iconPic);
-            this.Controls.Add(this.corePic);
+            this.Controls.Add(this.rtbTip);
+            this.Controls.Add(this.btnAgain);
             this.Name = "TestFrm";
             this.Text = "tableLayoutPanelForm";
-            ((System.ComponentModel.ISupportInitialize)(this.corePic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPic)).EndInit();
+            this.Load += new System.EventHandler(this.TestFrm_Load);
             this.ResumeLayout(false);
 
         }
         #endregion
-
-        private PictureBox corePic;
-        private PictureBox iconPic;
+        private Button btnAgain;
+        private RichTextBox rtbTip;
     }
 }

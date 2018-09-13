@@ -19,6 +19,7 @@ namespace PureMVCAppDemo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             CallPureMVCRegister();
+            Test();
             Application.Run(new TestFrm());
         }
         static void CallPureMVCRegister()
@@ -34,6 +35,11 @@ namespace PureMVCAppDemo
             {
                 ex.ToString().WriteLog("Trace failure");
             }
+        }
+        static void Test()
+        {
+            string text = "2018/09/12 10:55:36 756";
+            DateTimeServie.GetDateFromTime(text, "yyyy/MM/dd HH:mm:ss fff");
         }
     }
     public class NLogHelper
@@ -121,6 +127,17 @@ namespace PureMVCAppDemo
             //日志按照月份汇总
             string file = now.ToString("yyyyMMdd") + ".log";//日志以天为文件存储
             Logger.CreateLogFile(log, AppDomain.CurrentDomain.BaseDirectory + "/Log", title, file, true);
+        }
+    }
+
+    public class DateTimeServie
+    {
+        public static string GetDateFromTime(string time, string timeFormat)
+        {
+            //2018/09/12 10:55:36 756
+            string date = DateTime.ParseExact(time, timeFormat, System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd");
+
+            return string.Empty;
         }
     }
 }

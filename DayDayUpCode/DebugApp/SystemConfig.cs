@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Linq.Mapping;
 using System.ComponentModel.DataAnnotations;
+using XPect.Lib.DataModel.DataBaseEntity;
 namespace DebugApp
 {
     public class SystemConfig
@@ -30,44 +31,23 @@ namespace DebugApp
             try
             {
                 //online 
-                using (var sqliteContext = new SQLiteDBCoontext<Patient>())
+                using (var sqliteContext = new DBContextFactory<XPectPatient>())
                 {
-                    var apiInfo_sqlite = sqliteContext.APIInfo.FirstOrDefault();
+                    var apiInfo_sqlite = sqliteContext.Entity.AsQueryable().ToList();
                     
                     //sqliteContext.SaveChanges();
                 }
 
                 //mine
-                DBContextFactory<Patient> pf = new DBContextFactory<Patient>();
-                List<Patient> ps = pf.Entity.AsQueryable().ToList();
+                DBContextFactory<XPectPatient> pf = new DBContextFactory<XPectPatient>();
+                List<XPectPatient> ps = pf.Entity.AsQueryable().ToList();
             }
             catch (Exception ex)
             {
 
             }
         }
-    }
-   // [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public class SQLiteDBCoontext<T> : DbContext where T:class
-    {
-        public SQLiteDBCoontext() : base("SQLite")
-        {
-            Database.SetInitializer(new InitializerDBContext<DBContextFactory<T>>());
-        }
-
-        public DbSet<T> APIInfo { get; set; }
-    }
-    public class InitializerDBContext<T> : DropCreateDatabaseAlways<T> where T:DbContext
-    {
-        protected override void Seed(T context)
-        {
-            #region 接口信息表
-            
-            #endregion
-
-            base.Seed(context);
-        }
-    }
+    } 
     public class DBContextFactory <T>: DbContext where T:class
     {
         public DBContextFactory() : base("SQLite")
@@ -75,9 +55,11 @@ namespace DebugApp
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {   
-           //modelBuilder.Configurations.AddFromAssembly(System.Reflection.Assembly.LoadFrom("XPect.Lib.DataModel.dll"));
-           base.OnModelCreating(modelBuilder);
+        { 
+            //Database.Initialize(false);
+            //Database.CreateIfNotExists();
+            modelBuilder.Configurations.AddFromAssembly(System.Reflection.Assembly.LoadFrom("XPect.Lib.DataModel.dll"));
+            base.OnModelCreating(modelBuilder);
         }
         public IDbSet<T> Entity { get; set; }
     }
