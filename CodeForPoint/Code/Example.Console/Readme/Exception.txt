@@ -1,0 +1,4 @@
+2018-08-16
+No Entity Framework provider found for the ADO.NET provider with invariant name 'System.Data.SqlClient'. Make sure the provider is registered in the 'entityFramework' section of the application config file. See http://go.microsoft.com/fwlink/?LinkId=260882 for more information.
+2018-08-16 
+“System.Data.Entity.Internal.AppConfig”的类型初始值设定项引发异常。"
