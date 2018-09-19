@@ -23,8 +23,13 @@ namespace DebugApp
         {
             try
             {
-                SqliteEFService sql = new SqliteEFService();
-                sql.Query();
+                int num = 100;
+                while (num > 0)
+                {
+                    SqliteEFService sql = new SqliteEFService();
+                    sql.Query();
+                    num--;
+                }
             }
             catch (Exception ex)
             {

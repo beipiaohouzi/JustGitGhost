@@ -73,9 +73,16 @@ namespace PureMVCAppDemo
         }
         private void RealTimeCpuTemplate()
         {
-            new System.Threading.Thread(() =>
+            if (this.InvokeRequired)
             {
-                System.Management.ManagementObjectSearcher cpu = new ManagementObjectSearcher(@"root\WMI", "Select * From MSAcpi_ThermalZoneTemperature");
+                this.Invoke(new Action(() => {
+                    RealTimeCpuTemplate();
+                }));
+                return;
+            }
+            System.Management.ManagementObjectSearcher cpu = new ManagementObjectSearcher(@"root\WMI", "Select * From MSAcpi_ThermalZoneTemperature");
+            try
+            {
                 foreach (System.Management.ManagementObject mo in cpu.Get())
                 /*
                 An unhandled exception of type 'System.Management.ManagementException' occurred in System.Management.dll
@@ -85,10 +92,13 @@ namespace PureMVCAppDemo
                 {
 
                     double tem = Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
-                    rtbTip.Text = string.Format("Cpu template:{0} °", tem);
+                    rtbTip.Text += string.Format("Cpu template:{0} °", tem)+"\r\n";
                 }
-            }).Start();
-
+            }
+            catch (Exception ex)
+            {
+                rtbTip.Text += ex.ToString() + "\r\n";
+            }
         }
 
     }

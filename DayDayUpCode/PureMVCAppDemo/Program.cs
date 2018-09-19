@@ -139,5 +139,9 @@ namespace PureMVCAppDemo
 
             return string.Empty;
         }
+        private void DataCall()
+        {
+          // new Workflow().member.
+        }
     }
 }
