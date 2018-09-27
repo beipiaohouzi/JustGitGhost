@@ -15,7 +15,7 @@ namespace PureMVCAppDemo
     /// </summary>
     /// <param name="data"></param>
     public delegate void CallFormDoMutual(object data);
-    public partial class LoginFrm : BaseForm, IMediator, INotifier
+    public partial class LoginFrm : BasePureMVCMediator
     {
         public LoginFrm()
         {
@@ -26,90 +26,35 @@ namespace PureMVCAppDemo
         public CallFormDoMutual Call { get; private set; }
         void Init()
         {
-            RegisterMediator();
+           
         }
-        public override void CallTodo(object data)
-        {
-            string tip = data as string;
-            rtbTip.Text += "\r\n" + tip+"\t" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-        }
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
             // BaseForm bf = OutSideCall.GetFormInstance(typeof(RegisterFrm).Name) as BaseForm;
-            string tip = this.GetType().Name + " send : " + txtMsg.Text;
-            SendNotification(MediatorName, tip, ListNotificationInterests()[0]);
+            string input = txtMsg.Text;
+            string tip = this.GetType().Name + " send : " +(string.IsNullOrEmpty(input) ? "Non msg。" : input) ;
+            SendNotification(NotifyData.Cmd_Account, tip, string.Empty);
         }
-        #region implementation
-        public string MediatorName
+        #region  overide
+        public override void HandleNotification(INotification notification)
         {
-            get
+            switch (notification.Name)
             {
-                return NotifyType.Login.ToString();
+                case NotifyData.Cmd_Account_Over:
+                    string msg = notification.Body as string;
+                    string response = string.Format("{0} receiver msg:{1}",this.GetType().Name,msg);
+                    rtbTip.Text += response + "\r\n";
+                    break;
             }
         }
-
-        public object ViewComponent
+        public override string[] ListNotificationInterests()
         {
-            get
-            {
-                return this;
-            }
-
-            set
-            {
-                value = this;
-            }
+            return new string[] {
+                NotifyData.Cmd_Account_Over
+           };
         }
-
-        public string[] ListNotificationInterests()
-        {
-            return new string[] { NotifyType.Login.ToString(),  NotifyType.Accounts.ToString() };
-        }
-
-        public void HandleNotification(INotification notification)
-        {
-            object data = notification.Body;
-            string name = notification.Name;
-            string text = data as string;
-            rtbTip.Text += "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + text;
-            return;
-        }
-
-        public void OnRegister()
-        {
-
-        }
-
-        public void OnRemove()
-        {
-
-        }
-
-        public void SendNotification(string notificationName, object body, string type)
-        {
-            instance.SendNotification(notificationName, body, type);
-            
-        }
-
-        public void InitializeNotifier(string key)
-        {
-            return;
-        }
-        #endregion
-        FacadeFactory instance;
-        //public LoginFrmMediator instance;
-        public void RegisterMediator()
-        {
-            //instance = new LoginFrmMediator(MediatorName, ViewComponent);
-            instance =  FacadeFactory.GetInstance();
-            LoginFrmMediator lm = new LoginFrmMediator(MediatorName, this);
-            instance.RegisterMediator(lm);
-            LoginCommand lf = new LoginCommand();
-            instance.RegisterCommand(MediatorName, () => lf);
-            
-            
-        }
+        #endregion 
     }
 }

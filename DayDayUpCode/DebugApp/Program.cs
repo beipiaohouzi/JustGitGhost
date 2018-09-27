@@ -13,10 +13,8 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-            SqliteManage();
-            //BackRunService brs = new BackRunService();
-            //brs.Start();
-            // run.Monitor();
+            
+            
             Console.ReadLine();
         }
         static void SqliteManage()
@@ -36,7 +34,10 @@ namespace DebugApp
 
             }
         }
-        
+        static void MoniterMouse()
+        {
+
+        }
     }
     public class RunInService
     {

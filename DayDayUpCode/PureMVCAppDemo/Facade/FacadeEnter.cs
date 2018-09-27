@@ -9,19 +9,23 @@ using System.Windows.Forms;
 namespace PureMVCAppDemo
 {
     #region 常规处理
-    public class FacadeEnter
+    public class FacadeEnter:Facade
     {
-        public void MVCRegister()
+        public static FacadeEnter Instance;
+        static FacadeEnter()
         {
-            string name = typeof(FacadeEnter).Name;
-            IFacade fa = Facade.GetInstance(name, () => new Facade(name));
-            InstanceService ins = new InstanceService();
-            LoginFrmMediator lfm = new LoginFrmMediator(typeof(LoginFrm).Name, new LoginFrm());
-            fa.RegisterMediator(lfm);
-            fa.RegisterMediator(ins.RegisterForm(typeof(RegisterFrm).Name, new RegisterFrm()));
-            fa.RegisterMediator(ins.RegisterForm(typeof(LoginListFrm).Name, new LoginListFrm()));
-            fa.RegisterMediator(ins.RegisterForm(typeof(RegisterListFrm).Name, new RegisterListFrm()));
+            if (Instance==null)
+            {
+                Instance = new FacadeEnter();
+            }
+        }
+        public FacadeEnter():base("FacadeEnter")
+        {
 
+        }
+        public void MVCRegister(IMediator mediator)
+        {
+            Instance.RegisterMediator(mediator);
         }
     }
     public class OutSideCall
@@ -75,19 +79,78 @@ namespace PureMVCAppDemo
             base.Execute(notification);
         }
     }
-    public class BasePureMVCMediator : PureMVC.Patterns.Mediator.Mediator
+    [System.ComponentModel.Description("窗体直接传递")]
+    public class BasePureMVCMediator :Form, IMediator
     {
-        public string fac;
-        public object view;
-        public BasePureMVCMediator(string fac, object view) : base(fac,view)
+        #region private member part
+        protected string mediatorName;
+        protected object component;
+        protected static FacadeFactory Instance;
+        #endregion
+        #region inherit 
+        string IMediator.MediatorName
         {
-            this.fac = fac;
-            this.view = view;
+            get
+            {
+                return mediatorName;
+            }
         }
-        public override void HandleNotification(INotification notification)
+
+        object IMediator.ViewComponent
         {
-            base.HandleNotification(notification);
+            get
+            {
+                return component;
+            }
+
+            set
+            {
+                component = value;
+            }
         }
+
+        
+        void INotifier.InitializeNotifier(string key)
+        {
+            return;
+        }
+
+       
+
+        void IMediator.OnRegister()
+        {
+            return;
+        }
+
+        void IMediator.OnRemove()
+        {
+            return;
+        }
+        #endregion
+        #region core part
+        public virtual void HandleNotification(INotification notification)
+        {
+
+        }
+        public virtual string[] ListNotificationInterests()
+        {
+            return new string[] { };
+        }
+        public virtual void SendNotification(string notificationName, object body, string type)
+        {
+            Instance.SendNotification(notificationName, body, type);
+        }
+        public BasePureMVCMediator()
+        {
+            mediatorName = this.GetType().Name;
+            component = this;
+            if (Instance == null)
+            {
+                Instance = FacadeFactory.GetInstance();
+            }
+            Instance.RegisterMediator(this);
+        }
+        #endregion
     }
     public class FacadeFactory : Facade
     {

@@ -17,4 +17,13 @@ namespace PureMVCAppDemo
         }
         
     }
+
+
+    public class NotifyData
+    {
+        public static string Logic = "Logic";
+        public const string Cmd_Grid = "Cmd_Grid";
+        public const string Cmd_Account = "Cmd_Account";
+        public const string Cmd_Account_Over= "Cmd_Account_Over";
+    }
 }

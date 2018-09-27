@@ -20,16 +20,19 @@ namespace PureMVCAppDemo
             Application.SetCompatibleTextRenderingDefault(false);
             CallPureMVCRegister();
             Test();
-            Application.Run(new TestFrm());
+            Application.Run(new LoginFrm());
         }
         static void CallPureMVCRegister()
         {
             try
             {
                 string dir = AppDomain.CurrentDomain.BaseDirectory;
-                NLogHelper.Workflow.Trace("ioc init");
-                FacadeEnter fac = new FacadeEnter();
-                fac.MVCRegister();
+                //初始化声明窗体
+                TestFrm test = new TestFrm();
+                LoginListFrm llf = new LoginListFrm();
+                GridFrm gf = new GridFrm();
+
+                NLogHelper.Workflow.Trace("ioc init"); 
             }
             catch (Exception ex)
             {
