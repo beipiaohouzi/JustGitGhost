@@ -18,6 +18,7 @@ namespace PureMVCAppDemo
             bg.DoWork += new DoWorkEventHandler(BackWorkTodo);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            ValidPathSpecialChar();
         }
 
         #region private member 
@@ -102,6 +103,18 @@ namespace PureMVCAppDemo
             {
                 isRun = true;
                 bg.RunWorkerAsync();
+            }
+        }
+        private void ValidPathSpecialChar()
+        {
+            //特殊字符校验
+            string regex = @"(.*\.*)(.*\*.*)";
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(regex);
+            string input = @"张三风";//判断是否含有某某字符
+            System.Text.RegularExpressions.Match mc= reg.Match(input);
+            if (mc.Groups.Count > 1)
+            {
+
             }
         }
         #endregion
