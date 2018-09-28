@@ -79,6 +79,18 @@
     </Compile>
     <Compile Include="Command\InstanceService.cs" />
     <Compile Include="Facade\FacadeEnter.cs" />
+    <Compile Include="Frm\ImgPathSelectFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\ImgPathSelectFrm.Designer.cs">
+      <DependentUpon>ImgPathSelectFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm\ImgShowFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\ImgShowFrm.Designer.cs">
+      <DependentUpon>ImgShowFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm\MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +139,12 @@
     </Compile>
     <EmbeddedResource Include="Frm\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\ImgPathSelectFrm.resx">
+      <DependentUpon>ImgPathSelectFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\ImgShowFrm.resx">
+      <DependentUpon>ImgShowFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm\LoginFrm.resx">
       <DependentUpon>LoginFrm.cs</DependentUpon>

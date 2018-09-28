@@ -25,5 +25,7 @@ namespace PureMVCAppDemo
         public const string Cmd_Grid = "Cmd_Grid";
         public const string Cmd_Account = "Cmd_Account";
         public const string Cmd_Account_Over= "Cmd_Account_Over";
+        public const string Cmd_Image_PathSelect = "Cmd_Image_PathSelect";
+        public const string Cmd_Image_ShowResult = "Cmd_Image_ShowResult";
     }
 }
