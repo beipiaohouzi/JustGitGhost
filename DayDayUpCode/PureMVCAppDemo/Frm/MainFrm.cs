@@ -10,12 +10,13 @@ using System.Windows.Forms;
 
 namespace PureMVCAppDemo
 {
-    public partial class MainFrm : Form
+    public partial class MainFrm : BasePureMVCMediator
     {
         public MainFrm()
         {
             InitializeComponent();
             InitMainPage();
+            CallPureMVCRegister();
         }
         void InitMainPage()
         {
@@ -38,15 +39,13 @@ namespace PureMVCAppDemo
 
                 //进行puremvc注册
                 string name = forms[i];
-               // Form frm = OutSideCall.GetFormInstance(name);
-                
             }
         }
         void Button_Click(object sender, EventArgs e)
         {
             Button b = (sender as Button);
             string formName = b.Name;
-            Form frm = OutSideCall.GetFormInstance(formName);
+            Form frm = FacadeFactory.GetInstance().RetrieveMediator(formName) as Form;
             if (!frm.IsHandleCreated)
             {//判断窗体是否已经加载
                 if (!frm.IsDisposed)//如果没有被销毁【窗体为进行关闭】
@@ -56,6 +55,23 @@ namespace PureMVCAppDemo
             string tip = this.GetType().Name + " call " + frm.GetType().Name;
            // FormFacade fc = new FormFacade(formName, this);
            // OutSideCall.SendNotify(typeof(LoginFrm).Name, tip);
+        }
+        static void CallPureMVCRegister()
+        {
+            try
+            {
+                //初始化声明窗体
+                TestFrm test = new TestFrm();
+                LoginListFrm llf = new LoginListFrm();
+                GridFrm gf = new GridFrm();
+                LoginFrm lf = new LoginFrm();
+                RegisterFrm rf = new RegisterFrm();
+                RegisterListFrm rlf = new RegisterListFrm();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString().WriteLog("Trace failure");
+            }
         }
     }
 }

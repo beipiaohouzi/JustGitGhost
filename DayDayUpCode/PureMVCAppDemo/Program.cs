@@ -18,27 +18,10 @@ namespace PureMVCAppDemo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            CallPureMVCRegister();
             Test();
-            Application.Run(new LoginFrm());
+            Application.Run(new MainFrm());
         }
-        static void CallPureMVCRegister()
-        {
-            try
-            {
-                string dir = AppDomain.CurrentDomain.BaseDirectory;
-                //初始化声明窗体
-                TestFrm test = new TestFrm();
-                LoginListFrm llf = new LoginListFrm();
-                GridFrm gf = new GridFrm();
-
-                NLogHelper.Workflow.Trace("ioc init"); 
-            }
-            catch (Exception ex)
-            {
-                ex.ToString().WriteLog("Trace failure");
-            }
-        }
+        
         static void Test()
         {
             string text = "2018/09/12 10:55:36 756";

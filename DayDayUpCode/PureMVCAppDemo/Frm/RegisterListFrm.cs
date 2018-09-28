@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using PureMVC.Interfaces;
 namespace PureMVCAppDemo
 {
-    public partial class RegisterListFrm : BaseView
+    public partial class RegisterListFrm : BasePureMVCMediator
     {
         public RegisterListFrm()
         {
@@ -20,29 +20,36 @@ namespace PureMVCAppDemo
         }
         void Init()
         {
-            MediatorName = NotifyType.Accounts.ToString();
-            //监听的消息分类
-            string[] monitor = new string[] { NotifyType.Login.ToString(),NotifyType.Register.ToString(),NotifyType.Onlines.ToString(),NotifyType.Accounts.ToString()};
-            RegisterMediator(monitor,MediatorName);
+           
             btnLogin.Click += new EventHandler(Button_Click);
             btnReg.Click += new EventHandler(Button_Click);
         }
-        //封装一个公用的调度方法
-        public CallFormDoMutual Call { get; private set; }
-        public override void HandleNotification(INotification notify)
-        {
-            object data = notify.Body;
-            string name = notify.Name;
-            string text = data as string;
-            rtbTip.Text += "\r\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + text;
-            //进行消息监听
-        }
+        
         void Button_Click(object sender, EventArgs e)
         {
             //此处进行消息发送
             string txt= txtMsg .Text;
             Button btn = sender as Button;
-            SendNotification(MediatorName,txt, MediatorMsgType.Call.ToString());
+           
         }
+        #region  overide
+        public override void HandleNotification(INotification notification)
+        {
+            switch (notification.Name)
+            {
+                case NotifyData.Cmd_Account:
+                    string msg = notification.Body as string;
+                    Console.WriteLine(string.Format("form :{0} receiver msg:{1}", this.GetType().Name, msg));
+                    break;
+            }
+        }
+        public override string[] ListNotificationInterests()
+        {
+            return new string[] {
+                NotifyData.Cmd_Grid,
+                NotifyData.Cmd_Account
+           };
+        }
+        #endregion 
     }
 }

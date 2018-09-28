@@ -13,8 +13,8 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-            
-            
+
+            ConsoleDoc();
             Console.ReadLine();
         }
         static void SqliteManage()
@@ -37,6 +37,11 @@ namespace DebugApp
         static void MoniterMouse()
         {
 
+        }
+        static void ConsoleDoc()
+        {
+            string[] arr = new string[] { "23","45","67" };
+            Console.WriteLine(string.Format("array:{0}", arr));
         }
     }
     public class RunInService
