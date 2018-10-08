@@ -9,25 +9,43 @@ namespace PureMVCAppDemo
 {
     public class AssemblyHandle
     {
+
         public void CallFromControls(string dllDir)
         {
+            string ele = System.Configuration.ConfigurationManager.AppSettings["EleType"];    
             //首先遍历dll
-            ForeachFile(dllDir,0);
+            List<string> dlls = ForeachFile(dllDir, 0);
+            foreach (var dll in dlls)
+            {
+                try
+                {
+                    Form[] frms = ForeachAssemblyManage.FindFormFromAssembly(dll);
+                    if (frms.Length > 0)
+                    {//寻找目标元素、
+                        foreach (Form page in frms)
+                        {
+                            Control[] eles= ForeachAssemblyManage.FindAllEleControls(page, ele);
 
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string.Format("{0} {1}",dll, ex.ToString()).OutputDoc("exception.log");
+                }
+            }
         }
-        public void ForeachFile(string dir,int level)
+        public List<string> ForeachFile(string dir,int level)
         {
             DirectoryInfo di = new DirectoryInfo(dir);
             string[] fileExt = new string[] {
                     ".dll",".exe"
             };
+            List<string> dll = new List<string>();
             FileInfo[] fis= di.GetFiles();
             //是否为目标dll
             if (fis.Length > 0)
             {//输出文件列表
-                string[] ignoreFileExt = new string[] {
-                    ".pdb",".config",".dcm",".dat",".xml",".nlog",".manifest"
-                };
                 StringBuilder sb = new StringBuilder();
                 int cur = 0;
                 sb.AppendLine();
@@ -38,22 +56,12 @@ namespace PureMVCAppDemo
                     {
                         cur++;
                         sb.AppendLine(cur + " : " + item.FullName);
+                        dll.Add(item.FullName);
                     }
                 }
                 sb.ToString().OutputDoc("files.log");
             }
-            //是否存在子目录
-            DirectoryInfo[] child= di.GetDirectories();
-            //如果子目录不为空
-            foreach (var item in child)
-            {
-                int deep = level+1;
-                if (item.EnumerateDirectories().Count() == 0 && item.EnumerateFiles().Count() == 0)
-                {
-                    continue;
-                }
-                ForeachFile(item.FullName, deep);
-            }
+            return dll;
         }
     }
 
@@ -78,12 +86,13 @@ namespace PureMVCAppDemo
         public static Form[] FindFormFromAssembly(string assembly)
         {
             string.Format(" <!-- form in assembly:{0}-->\r\n", assembly).OutputDoc(fileName);
+
             System.Reflection.Assembly ass = System.Reflection.Assembly.LoadFile( assembly);
             Type[] ts = ass.GetTypes();
             List<Form> btnForm = new List<Form>();
             foreach (Type item in ts)
             {
-                if (IsInheritType(item, formtype))
+                if (IsInheritType(item, formtype.Name))
                 {
                     Form obj = Activator.CreateInstance(item) as Form;
                     string frm = string.IsNullOrEmpty(obj.Name) ? "name is null,text=" + obj.Text : obj.Name;
@@ -102,37 +111,41 @@ namespace PureMVCAppDemo
             return btnForm.ToArray();
         }
         [System.ComponentModel.Description("是否继承自xx类型")]
-        private static bool IsInheritType(Type entity, Type inherit)
+        private static bool IsInheritType(Type entity, string inherit)
         {
             Type compare = entity;
-            if (compare.Name != inherit.Name && compare.BaseType != null)
+            if (compare.Name != inherit && compare.BaseType != null)
             {
                 compare = compare.BaseType;
                 return IsInheritType(compare, inherit);
             }
 
-            return compare.Name == inherit.Name;
+            return compare.Name == inherit;
         }
         public static Control[] FindAllButtonContols(Form page)
         {
+            return FindAllEleControls(page, btntype.Name);
+        }
+        public static Control[] FindAllEleControls(Form page,string eleTypeName)
+        {
             Control.ControlCollection eles = page.Controls;
-            List<Control> btns = new List<Control>();
+            List<Control> result = new List<Control>();
             foreach (Control item in eles)
             {
                 //是否存在元素
-                btns.AddRange(ForeachSon(item, btntype));
+                result.AddRange(ForeachSon(item, eleTypeName));
             }
-            return btns.ToArray();
+            return result.ToArray();
         }
         [System.ComponentModel.Description("查找元素内的全部某种元素的子元素")]
-        private static Control[] ForeachSon(Control node, Type target)
+        private static Control[] ForeachSon(Control node, string target)
         {
             List<Control> eles = new List<Control>();
             if (node.Name == typeof(Control).Name)
             {//已无法查询基类
                 return new Control[] { };
             }
-            else if (node.Name == target.Name)
+            else if (node.Name == target)
             {
                 return new Control[] { node };
             }
