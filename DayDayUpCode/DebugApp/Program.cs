@@ -13,7 +13,7 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-
+            SqliteManage();
             ConsoleDoc();
             Console.ReadLine();
         }
@@ -233,4 +233,7 @@ namespace DebugApp
             cur++;
         }
     }
+
+
+   
 }

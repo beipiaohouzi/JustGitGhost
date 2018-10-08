@@ -37,7 +37,7 @@ namespace DebugApp
  no such table: Patients
                       */
                 //  var apiInfo_sqlite = sqliteContext.Entity.AsQueryable().ToList();
-                List<Patient> patients= sqliteContext.DoQuery<Patient>().ToList();
+                //List<Patient> patients= sqliteContext.DoQuery<Patient>().ToList();
                 Patient p = new Patient()
                 {
                     TId = Guid.NewGuid().ToString(),
@@ -46,7 +46,7 @@ namespace DebugApp
                     PatientSex = "0"
                 };
                 sqliteContext.AddList(new Patient[] { p });
-                patients = sqliteContext.DoQuery<Patient>().ToList();
+               // patients = sqliteContext.DoQuery<Patient>().ToList();
             }
             catch (Exception ex)
             {

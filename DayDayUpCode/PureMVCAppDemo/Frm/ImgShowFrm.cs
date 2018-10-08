@@ -108,9 +108,9 @@ namespace PureMVCAppDemo
         private void ValidPathSpecialChar()
         {
             //特殊字符校验
-            string regex = "(.*(<>|).*)";// @"(.*\.*)(.*\*.*)(?=.*/)";
+            string regex = "(\\*$)";// @"(.*\.*)(.*\*.*)(?=.*/)";
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(regex);
-            string input = @"张郭三风";//判断是否含有某某字符
+            string input = @"张郭\三风";//判断是否含有某某字符
             System.Text.RegularExpressions.Match mc= reg.Match(input);
             if (mc.Groups.Count > 1)
             {

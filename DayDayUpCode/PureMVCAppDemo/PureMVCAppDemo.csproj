@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyModule\AssemblyService.cs" />
     <Compile Include="Frm\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>

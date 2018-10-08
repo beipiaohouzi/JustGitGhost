@@ -26,6 +26,8 @@ namespace PureMVCAppDemo
         {
             string text = "2018/09/12 10:55:36 756";
             DateTimeServie.GetDateFromTime(text, "yyyy/MM/dd HH:mm:ss fff");
+            AssemblyHandle ass = new AssemblyHandle();
+            ass.CallFromControls(@"E:\Code\CodeDev\UI.GitCore\DevCore\MammoDev\Output\ReleaseX64-Dev");
         }
     }
     public class NLogHelper
@@ -53,7 +55,7 @@ namespace PureMVCAppDemo
         /// <param name="log"></param>
         /// <param name="fileName"></param>
         /// <param name="existsWrite">存在相同名称的文件进行替换还是追加</param>
-        public static void CreateLogFile(string text, string path, string log, string fileName = null, bool existsWrite = false, Encoding encode = null)
+        public static void CreateLogFile(string text, string path, string log, string fileName = null, bool existsWrite = false, Encoding encode = null, bool addLogFlag = true)
         {
              
             if (string.IsNullOrEmpty(text)) { return; }
@@ -113,6 +115,12 @@ namespace PureMVCAppDemo
             //日志按照月份汇总
             string file = now.ToString("yyyyMMdd") + ".log";//日志以天为文件存储
             Logger.CreateLogFile(log, AppDomain.CurrentDomain.BaseDirectory + "/Log", title, file, true);
+        }
+        public static void OutputDoc(this string text, string fileName)
+        {
+            DateTime now = DateTime.Now;
+            //日志按照月份汇总
+            Logger.CreateLogFile(text, AppDomain.CurrentDomain.BaseDirectory + "/Log", string.Empty, fileName, true, Encoding.UTF8, false);
         }
     }
 
