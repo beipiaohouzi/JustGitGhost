@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using NLog;
 using System.IO;
 using System.Text;
+using AutoFitWin;
 namespace PureMVCAppDemo
 {
     static class Program
@@ -27,7 +28,7 @@ namespace PureMVCAppDemo
             string text = "2018/09/12 10:55:36 756";
             DateTimeServie.GetDateFromTime(text, "yyyy/MM/dd HH:mm:ss fff");
             AssemblyHandle ass = new AssemblyHandle();
-            ass.CallFromControls(@"E:\Code\CodeDev\UI.GitCore\DevCore\MammoDev\Output\ReleaseX64-Dev");
+            ass.CallFromControls(@"E:\Code\CodeDev\UI.GitCore\DevCore\MammoDev\Output\ReleaseX64-Dev","Label");
         }
     }
     public class NLogHelper
