@@ -64,7 +64,7 @@ namespace AutoFitWin
                 encode = Encoding.UTF8;
             }
             StreamWriter sw = new StreamWriter(fs, encode);
-            sw.Write("title: " + log + "\r\ntext:" + text + "\r\n");
+            sw.Write(text + "\r\n");
             sw.Close();
             fs.Close();
         }
@@ -104,8 +104,6 @@ namespace AutoFitWin
             static string fileName = "Ele.log";
             public static Form[] FindFormFromAssembly(string assembly)
             {
-                string.Format(" <!-- form in assembly:{0}-->\r\n", assembly).OutputDoc(fileName);
-
                 System.Reflection.Assembly ass = System.Reflection.Assembly.LoadFile(assembly);
                 Type[] ts = ass.GetTypes();
                 List<Form> btnForm = new List<Form>();
@@ -114,17 +112,8 @@ namespace AutoFitWin
                     if (IsInheritType(item, formtype.Name))
                     {
                         Form obj = Activator.CreateInstance(item) as Form;
-                        string frm = string.IsNullOrEmpty(obj.Name) ? "name is null,text=" + obj.Text : obj.Name;
-                        //查看窗体内的button元素
-                        Control[] btns = FindAllButtonContols(obj);
-                        string.Format(" <!--ele in form:{0} -->\r\n", frm).OutputDoc(fileName);
-                        if (btns.Length > 0)
-                        {
-                            foreach (var button in btns)
-                            {
-                                string.Format(outPutFormat, obj.Name, button.Name).OutputDoc(fileName);
-                            }
-                        }
+                        //string frm = string.IsNullOrEmpty(obj.Name) ? "name is null,text=" + obj.Text : obj.Name;
+                        btnForm.Add(obj);
                     }
                 }
                 return btnForm.ToArray();
@@ -141,10 +130,6 @@ namespace AutoFitWin
 
                 return compare.Name == inherit;
             }
-            public static Control[] FindAllButtonContols(Form page)
-            {
-                return FindAllEleControls(page, btntype.Name);
-            }
             public static Control[] FindAllEleControls(Form page, string eleTypeName)
             {
                 Control.ControlCollection eles = page.Controls;
@@ -153,6 +138,12 @@ namespace AutoFitWin
                 {
                     //是否存在元素
                     result.AddRange(ForeachSon(page.Name, item, eleTypeName));
+                }
+                string eleFile = string.Format("{0}.Ele.log", eleTypeName);
+                string.Format(" <!-- form [{0}] in assembly:{1}-->\r\n", page.Name,page.GetType().Assembly.Location).OutputDoc(eleFile);
+                foreach (var item in result)
+                {
+                    string.Format("<add key=\"{0}.{1}\" Style=\"System\"/>", page.Name, item.Name).OutputDoc(eleFile);
                 }
                 return result.ToArray();
             }
@@ -166,12 +157,10 @@ namespace AutoFitWin
                 }
                 else if (node.Name == target)
                 {
-                    string.Format("{0}.{1}", formName, node.Name).OutputDoc(string.Format("{0}.Ele.log", target));
                     return new Control[] { node };
                 }
                 else if (IsInheritType(node.GetType(), target))
                 {
-                    string.Format("{0}.{1}", formName, node.Name).OutputDoc(string.Format("{0}.Ele.log", target));
                     return new Control[] { node };
                 }
                 else if (node.Controls.Count > 0)
@@ -212,7 +201,6 @@ namespace AutoFitWin
                     {//寻找目标元素、
                         foreach (Form page in frms)
                         {
-
                             Control[] eles = ForeachAssemblyManage.FindAllEleControls(page, eleTypeName);
                         }
                     }
