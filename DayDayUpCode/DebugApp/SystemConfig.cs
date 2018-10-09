@@ -31,13 +31,6 @@ namespace DebugApp
             {
                 //online 
                 var sqliteContext = new DBReporistoryProxy<Patient>();
-
-                /*
-                     SQL logic error
- no such table: Patients
-                      */
-                //  var apiInfo_sqlite = sqliteContext.Entity.AsQueryable().ToList();
-                //List<Patient> patients= sqliteContext.DoQuery<Patient>().ToList();
                 Patient p = new Patient()
                 {
                     TId = Guid.NewGuid().ToString(),
