@@ -19,12 +19,15 @@ namespace PureMVCAppDemo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Test();
-            Application.Run(new MainFrm());
+           // Test();
+            Application.Run(new FrmMultipleIcon());
         }
         
         static void Test()
         {
+            decimal val = 1m;
+            decimal dt = val;
+
             string text = "2018/09/12 10:55:36 756";
             DateTimeServie.GetDateFromTime(text, "yyyy/MM/dd HH:mm:ss fff");
             AssemblyHandle ass = new AssemblyHandle();

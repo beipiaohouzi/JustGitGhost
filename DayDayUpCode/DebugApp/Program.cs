@@ -13,9 +13,48 @@ namespace DebugApp
         
         static void Main(string[] args)
         {
-            SqliteManage();
-            ConsoleDoc();
+            string format = 
+@"<Content Include={0}> 
+    <CopyToOutputDirectory>PreserveNewest </CopyToOutputDirectory >
+</Content > ";
+            string dir = @"E:\Code\CodeDev\UI.GitCore\DevCore\MammoDev\XPect.UI\XP.UI.Startup\Resource\Image";
+            string rep = @"E:\Code\CodeDev\UI.GitCore\DevCore\MammoDev\XPect.UI\XP.UI.Startup\";
+            List<string> files = FindFiles(dir, true);
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in files)
+            {
+                string f= item.Replace(rep, string.Empty);
+                string ft= string.Format(format, "\"" + f + "\"");
+                sb.AppendLine(ft);   
+            }
+            LoggerQuickHelp.WriteLog(sb.ToString(), string.Empty);
             Console.ReadLine();
+        }
+        static List<string> FindFiles(string dir, bool findChildrenNode)
+        {
+            DirectoryInfo di = new DirectoryInfo(dir);
+            FileInfo[] fis = di.GetFiles();
+            List<string> files = new List<string>();
+            foreach (FileInfo item in fis)
+            {
+                files.Add(item.FullName);
+            }
+            if (!findChildrenNode)
+            {
+                return new List<string>();
+            }
+            DirectoryInfo[] dis = di.GetDirectories();
+            foreach (DirectoryInfo item in dis)
+            {
+                files.AddRange(FindFiles(item.FullName, findChildrenNode));
+            }
+            return files;
+        }
+        static void Test()
+        {
+            SqliteManage();
+            TestLock();
+            ConsoleDoc();
         }
         static void SqliteManage()
         {
@@ -41,7 +80,16 @@ namespace DebugApp
         static void ConsoleDoc()
         {
             string[] arr = new string[] { "23","45","67" };
-            Console.WriteLine(string.Format("array:{0}", arr));
+            //Console.WriteLine(string.Format("array:{0}", arr));
+        }
+        static void TestLock()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine(i);
+                string id = BatFileManage.CreateQueueId();
+                Console.WriteLine("id:="+id);
+            }
         }
     }
     public class RunInService
@@ -235,5 +283,72 @@ namespace DebugApp
     }
 
 
-   
+    public class BatFileManage
+    {
+        private static int CurrentInstaceQueueNum
+        {
+            get
+            {
+                int num = 0;
+                try
+                {
+                    string[] lines = File.ReadAllLines("InstanceQueueNum.dat");
+                    Console.WriteLine("read text ing...");
+                    if (string.IsNullOrEmpty(lines[0]))
+                    {
+                        num = 0;
+                    }
+                    else
+                    {
+                        string[] dateAndNum = lines[0].Split(',');
+                        if (dateAndNum.Length < 2)
+                        {
+                            num = 0;
+                        }
+                        else
+                        {
+                            num = DateTime.Today.ToString(SystemConfig.DayIntFormat).Equals(dateAndNum[0]) ? Convert.ToInt32(dateAndNum[1]) : 0;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    if (!File.Exists("InstanceQueueNum.dat"))
+                        File.Create("InstanceQueueNum.dat").Close();//文件不存在则创建，并在创建之后结束进程
+                    num = 0;
+                }
+                Console.WriteLine("read");
+                return num;
+            }
+            set
+            {
+                File.WriteAllText("InstanceQueueNum.dat", string.Format("{0},{1}", DateTime.Today.ToString(SystemConfig.DayIntFormat), value));
+                Console.WriteLine("update");
+            }
+        }
+        private static object mLocker = new object();
+        public static string CreateQueueId()
+        {
+            lock (mLocker)
+            {
+                //最长64位，UID Pattern: 
+                //      Series:？？.MAC.yyyyMMddhhmmss.xxxx
+                string id = string.Empty;
+                try
+                {
+                    DateTime dt = DateTime.Now;
+                    Console.WriteLine("query instance id");
+                    int temp = CurrentInstaceQueueNum++;
+                    id = CurrentInstaceQueueNum.ToString("d5");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+                return id;
+            }
+        }
+    }
 }

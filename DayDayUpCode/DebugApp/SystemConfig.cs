@@ -21,6 +21,7 @@ namespace DebugApp
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
         }
+        public static string DayIntFormat = "yyyyMMdd";
     }
 
     public class SqliteEFService

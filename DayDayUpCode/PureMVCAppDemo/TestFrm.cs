@@ -49,7 +49,7 @@ namespace PureMVCAppDemo
 
         private void btnDeleteRow_Click(object sender, EventArgs e)
         {
-
+            ShowDialogWillRefresh();
         }
         void DrawLine()
         {
@@ -81,6 +81,7 @@ namespace PureMVCAppDemo
         {
 
             DrawLine();
+            ShowDialogWillRefresh();
         }
         private void CpuBackWork(object sender, DoWorkEventArgs e)
         {
@@ -138,6 +139,10 @@ namespace PureMVCAppDemo
                 NotifyData.Cmd_Grid,
                 NotifyData.Cmd_Account
            };
+        }
+        private void ShowDialogWillRefresh()
+        {
+            MessageBox.Show("对话框加载是否会出现窗体闪烁");
         }
         #endregion 
 

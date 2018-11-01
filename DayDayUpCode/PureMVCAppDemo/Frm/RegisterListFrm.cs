@@ -23,6 +23,10 @@ namespace PureMVCAppDemo
            
             btnLogin.Click += new EventHandler(Button_Click);
             btnReg.Click += new EventHandler(Button_Click);
+            //btnLogin.MouseMove += new MouseEventHandler(MouseMove_Event);
+            string tip = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            ToolTip t = new ToolTip() {  AutoPopDelay=30000,IsBalloon=true};
+            t.SetToolTip(btnLogin, tip);
         }
         
         void Button_Click(object sender, EventArgs e)
@@ -51,5 +55,11 @@ namespace PureMVCAppDemo
            };
         }
         #endregion 
+        private void MouseMove_Event(object sender,MouseEventArgs e)
+        {
+            //ToolTipFrm tipFrm = FacadeFactory.GetInstance().RetrieveMediator(typeof(ToolTipFrm).Name) as ToolTipFrm; //判断是否已存在
+           // string tip = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); 
+            //tipFrm.SetTip(this,tip);
+        }
     }
 }

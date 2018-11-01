@@ -72,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyModule\AssemblyService.cs" />
+    <Compile Include="FrmFileForeach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFileForeach.Designer.cs">
+      <DependentUpon>FrmFileForeach.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,12 @@
     </Compile>
     <Compile Include="Command\InstanceService.cs" />
     <Compile Include="Facade\FacadeEnter.cs" />
+    <Compile Include="Frm\FrmMultipleIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\FrmMultipleIcon.Designer.cs">
+      <DependentUpon>FrmMultipleIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm\ImgPathSelectFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +122,12 @@
     <Compile Include="Frm\LoginListFrm.Designer.cs">
       <DependentUpon>LoginListFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frm\ToolTipFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\ToolTipFrm.Designer.cs">
+      <DependentUpon>ToolTipFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GridFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,8 +156,14 @@
     <Compile Include="TestFrm.Designer.cs">
       <DependentUpon>TestFrm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FrmFileForeach.resx">
+      <DependentUpon>FrmFileForeach.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\FrmMultipleIcon.resx">
+      <DependentUpon>FrmMultipleIcon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm\ImgPathSelectFrm.resx">
       <DependentUpon>ImgPathSelectFrm.cs</DependentUpon>
@@ -158,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm\RegisterListFrm.resx">
       <DependentUpon>RegisterListFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\ToolTipFrm.resx">
+      <DependentUpon>ToolTipFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GridFrm.resx">
       <DependentUpon>GridFrm.cs</DependentUpon>
@@ -193,6 +220,20 @@
       <Project>{1b4d1a1c-99fd-4d79-9cc0-8234c3d5e0a4}</Project>
       <Name>AutoFitWin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resource\addprocedure_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\addprocedure_normal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\commonBtn_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\commonBtn_normal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

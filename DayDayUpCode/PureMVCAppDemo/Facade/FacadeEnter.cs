@@ -142,13 +142,24 @@ namespace PureMVCAppDemo
         }
         public BasePureMVCMediator()
         {
-            mediatorName = this.GetType().Name;
-            component = this;
-            if (Instance == null)
+            try
             {
-                Instance = FacadeFactory.GetInstance();
+                if (DesignMode)
+                {
+                    return;
+                }
+                mediatorName = GetType().Name;
+                component = this;
+                if (Instance == null)
+                {
+                    Instance = FacadeFactory.GetInstance();
+                }
+                Instance.RegisterMediator(this);
             }
-            Instance.RegisterMediator(this);
+            catch (Exception ex)
+            {
+
+            }
         }
         #endregion
     }

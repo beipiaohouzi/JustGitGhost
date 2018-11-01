@@ -27,6 +27,7 @@ namespace PureMVCAppDemo
             forms.Add(typeof(RegisterListFrm).Name);
             forms.Add(typeof(ImgPathSelectFrm).Name);
             forms.Add(typeof(ImgShowFrm).Name);
+            forms.Add(typeof(TestFrm).Name);
             Point p = this.Location;
             for (int i = 0; i < forms.Count; i++)
             {
@@ -71,6 +72,7 @@ namespace PureMVCAppDemo
                 RegisterListFrm rlf = new RegisterListFrm();
                 ImgShowFrm isf = new ImgShowFrm();
                 ImgPathSelectFrm s = new ImgPathSelectFrm();
+                ToolTipFrm tip = new ToolTipFrm();
             }
             catch (Exception ex)
             {
