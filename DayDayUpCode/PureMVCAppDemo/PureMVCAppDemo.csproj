@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ImageShow">
-      <HintPath>..\..\..\CodeDev\UI.GitCore\DevCore\MammoDev\Output\ReleaseX64-Dev\ImageShow.dll</HintPath>
+      <HintPath>..\bin\ImageShow.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.8\lib\net45\NLog.dll</HintPath>
@@ -197,6 +197,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="TestFrm.resx">
       <DependentUpon>TestFrm.cs</DependentUpon>
@@ -220,6 +221,10 @@
       <Project>{1b4d1a1c-99fd-4d79-9cc0-8234c3d5e0a4}</Project>
       <Name>AutoFitWin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LT.WinForm.ImageButton\LT.WinForm.ImageButton\LT.WinForm.ImageButton.csproj">
+      <Project>{8D29EA50-FE5C-47E8-849A-D5C5CEB18FC1}</Project>
+      <Name>LT.WinForm.ImageButton</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resource\addprocedure_active.png">
@@ -234,6 +239,10 @@
     <Content Include="Resource\commonBtn_normal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\magnifier_active.png" />
+    <Content Include="Resource\magnifier_normal.png" />
+    <Content Include="Resource\operator.png" />
+    <Content Include="Resource\radiobtn_active.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

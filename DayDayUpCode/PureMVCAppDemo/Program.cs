@@ -19,12 +19,19 @@ namespace PureMVCAppDemo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-           // Test();
+            Test();
             Application.Run(new FrmMultipleIcon());
         }
         
         static void Test()
         {
+
+            string date = "1998/11/12";
+            DateTime? time = null;
+            if (!string.IsNullOrEmpty(date))
+            {
+                time = DateTime.ParseExact(date, new string[2] { "yyyyMMdd", "yyyy/MM/dd" }, null, System.Globalization.DateTimeStyles.None);
+            }
             decimal val = 1m;
             decimal dt = val;
 
