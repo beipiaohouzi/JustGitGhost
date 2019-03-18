@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Screens>
-    <Screen ScreenId="Main" LayoutConf="Main.conf" />
-    <Screen ScreenId="Study" LayoutConf="Study.conf" />
-</Screens>
